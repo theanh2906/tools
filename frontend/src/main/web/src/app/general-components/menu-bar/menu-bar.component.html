@@ -1,0 +1,46 @@
+<div class="app-menu-bar">
+  <mat-toolbar class="toolbar" color="primary">
+    <button (click)="sideNav.toggle()" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="title">{{ title ? title : 'Useful Tools' }}</h1>
+    <span class="spacer"></span>
+    <button
+      (click)="onAuthenticate()"
+      aria-label="Example icon-button with heart icon"
+      class="example-icon favorite-icon"
+      mat-icon-button
+    >
+      <mat-icon>{{ isAuthenticated ? 'logout' : 'login' }}</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <mat-sidenav-container [hasBackdrop]="true" class="sidenav-container">
+    <mat-sidenav
+      #sideNav
+      [fixedInViewport]="mobileQuery.matches"
+      [mode]="'side'"
+      fixedTopGap="56"
+    >
+      <mat-nav-list>
+        <div *ngFor="let sideNavItem of sideNavItems" class="sidenav-wrapper">
+          <a
+            (click)="onNavigate(sideNavItem.url)"
+            [routerLink]="['/', sideNavItem.url]"
+            mat-list-item
+            routerLinkActive="active-nav"
+          >
+            <div class="sidenav-item">
+              <p>{{ sideNavItem.title }}</p>
+              <span class="material-icons"> {{ sideNavItem.icon }} </span>
+            </div>
+          </a>
+        </div>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="sidenav-content">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

@@ -1,0 +1,28 @@
+.notes {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  mat-form-field {
+    width: 80vw;
+    margin: auto;
+  }
+
+  &__content {
+    text-align: left;
+    width: 80vw;
+    margin: auto;
+    padding-bottom: 1rem;
+  }
+
+  .btn-group {
+    display: flex;
+    width: 80vw;
+    justify-content: center;
+    margin: auto;
+    gap: 0.5rem;
+
+    button {
+      width: 25vw;
+    }
+  }
+}

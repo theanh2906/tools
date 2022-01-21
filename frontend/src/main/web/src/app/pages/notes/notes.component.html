@@ -1,0 +1,31 @@
+<app-editor (createNoteEvent)="onCreateNote($event)"></app-editor>
+<div *ngIf="notesList" class="notes-display">
+  <div *ngFor="let note of notesList">
+    <div *ngIf="!note.isEdit" class="notes-display__wrapper">
+      <div class="delete__area">
+        <div (click)="onSwitchMode(note)" class="edit" role="button">
+          {{ note.isEdit ? '' : 'Edit' }}
+        </div>
+        <div (click)="deleteNote(note.id)" class="delete" role="button">X</div>
+      </div>
+      <h2 class="note-title">{{ note.title }}</h2>
+      <div [innerHTML]="note.content"></div>
+      <em class="note-date">Created at {{ note.createdDate }}</em>
+    </div>
+    <app-editor
+      (editNoteEvent)="onEdit($event)"
+      *ngIf="note.isEdit"
+      [editedNote]="editedNote"
+      [isEdit]="true"
+    >
+      <button
+        (click)="editedNote.isEdit = false"
+        [style]="{ width: '25vw' }"
+        color="primary"
+        mat-stroked-button
+      >
+        Cancel
+      </button>
+    </app-editor>
+  </div>
+</div>

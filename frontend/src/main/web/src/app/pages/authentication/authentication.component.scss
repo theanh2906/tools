@@ -1,0 +1,15 @@
+.auth-form {
+  text-align: center;
+  mat-form-field {
+    width: 60vw;
+    margin: auto;
+  }
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 60vw;
+    margin: auto;
+    padding-top: 0.5rem;
+  }
+}

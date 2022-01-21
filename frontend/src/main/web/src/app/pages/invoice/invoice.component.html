@@ -1,0 +1,89 @@
+<div class="invoice">
+  <h1>Hóa đơn online</h1>
+  <div class="invoice-form">
+    <mat-form-field appearance="standard">
+      <mat-label>Tên</mat-label>
+      <mat-select
+        required
+        [(value)]="selectedName"
+        [formControl]="selectedNameControl"
+        [errorStateMatcher]="matcher"
+      >
+        <mat-option value="{{ name }}" *ngFor="let name of names">
+          {{ name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="selectedNameControl.hasError('required')"
+        >Không được bỏ trống</mat-error
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="standard">
+      <mat-label>Ngày bắt đầu - kết thúc</mat-label>
+      <mat-date-range-input [rangePicker]="date">
+        <input
+          matStartDate
+          [(ngModel)]="startDate"
+          placeholder="Ngày bắt đầu"
+        />
+        <input matEndDate [(ngModel)]="endDate" placeholder="Ngày kết thúc" />
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+      <mat-date-range-picker #date></mat-date-range-picker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Đóng cho tháng</mat-label>
+      <input
+        type="number"
+        max="12"
+        min="1"
+        matInput
+        placeholder="Nhập tháng"
+        [(ngModel)]="month"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Số tiền</mat-label>
+      <input
+        matInput
+        type="number"
+        placeholder="Nhập tiền"
+        [(ngModel)]="money"
+        [formControl]="moneyControl"
+        id="money"
+      />
+      <span matSuffix>VND&nbsp;</span>
+      <mat-error>Nhập vào số tiền</mat-error>
+    </mat-form-field>
+    <br />
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="exportImage()"
+      [disabled]="
+        selectedNameControl.hasError('required') ||
+        moneyControl.hasError('required')
+      "
+    >
+      Submit
+    </button>
+
+    <div class="result-wrapper">
+      <div class="result" id="capture">
+        <h2 style="text-align: center">Biên lai thu tiền</h2>
+        <h3 style="text-align: center">{{ now | date: 'dd/MM/yyyy' }}</h3>
+        <p>Họ và tên: {{ selectedName }}</p>
+        <p>
+          Ngày bắt đầu: {{ startDate | date: 'dd/MM/yyyy' }} - Ngày kết thúc:
+          {{ endDate | date: 'dd/MM/yyyy' }}
+        </p>
+        <p>Nội dung thu: Tiền học phí tháng {{ month }}</p>
+        <p>Số tiền: {{ formatNumber(money) }} đồng</p>
+        <h2>Chữ ký</h2>
+        <img src="assets/chu-ky.jpg" alt="Chữ Ký" width="150" height="150" />
+      </div>
+    </div>
+  </div>
+</div>

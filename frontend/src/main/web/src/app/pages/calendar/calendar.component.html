@@ -1,0 +1,11 @@
+<!--<mat-spinner [diameter]="100" [strokeWidth]="10" *ngIf="loading"></mat-spinner>-->
+<mat-progress-bar
+  mode="indeterminate"
+  *ngIf="isLoading"
+  style="top: 50%"
+></mat-progress-bar>
+<div *ngIf="!isLoading">
+  <p-fullCalendar [events]="events" [options]="options"></p-fullCalendar>
+  <h2>All Events</h2>
+  <app-all-events [isAdded]="isAdded"></app-all-events>
+</div>

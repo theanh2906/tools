@@ -1,0 +1,38 @@
+<div class="change-case">
+  <div class="form-wrapper">
+    <mat-form-field class="form-field">
+      <mat-label>Input text to change</mat-label>
+      <textarea
+        matInput
+        name="text"
+        id="text"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="10"
+        [(ngModel)]="text"
+      ></textarea>
+    </mat-form-field>
+    <mat-radio-group color="primary" [(ngModel)]="choice" class="checkboxes">
+      <mat-radio-button value="upper">UPPERCASE</mat-radio-button>
+      <mat-radio-button value="lower">lowercase</mat-radio-button>
+      <mat-radio-button value="title">Title Case</mat-radio-button>
+      <mat-radio-button value="camel">camelCase</mat-radio-button>
+      <mat-radio-button value="kebab">kebab-case</mat-radio-button>
+      <mat-radio-button value="minify">Minify HTML/CSS/JS</mat-radio-button>
+    </mat-radio-group>
+    <div class="button-group">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="handleChangeCasesClick()"
+      >
+        Change
+      </button>
+      <button mat-raised-button color="primary" [cdkCopyToClipboard]="text">
+        Copy to clipboard
+      </button>
+      <button mat-raised-button color="primary" (click)="text = ''">
+        Clear
+      </button>
+    </div>
+  </div>
+</div>

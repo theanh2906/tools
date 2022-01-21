@@ -1,0 +1,38 @@
+.invoice {
+
+  &-authorization {
+    width: 100%;
+    text-align: center;
+    margin: auto auto 2rem;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  &-form {
+    margin: auto;
+    width: 50%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @media (max-width: 600px) {
+      width: 80%;
+    }
+
+    .result {
+      text-align: left;
+      margin-top: 3rem;
+      width: 800px;
+      height: 500px;
+      padding: 2rem;
+
+      &-wrapper {
+        overflow-x: scroll;
+        scroll-behavior: smooth;
+      }
+    }
+  }
+}

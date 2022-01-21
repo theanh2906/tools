@@ -1,0 +1,34 @@
+<div class="notes">
+  <div class="notes__input">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input
+        type="text"
+        matInput
+        [value]="titleInputText"
+        [(ngModel)]="titleInputText"
+      />
+    </mat-form-field>
+  </div>
+  <div class="notes__content">
+    <p-editor
+      [(ngModel)]="contentInputText"
+      [style]="{ height: '200px' }"
+    ></p-editor>
+  </div>
+  <div class="btn-group">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="
+        isEdit ? onEdit() : onCreateNote(titleInputText, contentInputText)
+      "
+    >
+      {{ isEdit ? 'Save' : 'Create note' }}
+    </button>
+    <button mat-stroked-button color="primary" (click)="onClear()">
+      Clear
+    </button>
+    <ng-content></ng-content>
+  </div>
+</div>

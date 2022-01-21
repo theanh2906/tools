@@ -1,0 +1,24 @@
+<p>Upload CSV file:</p>
+<p-fileUpload
+  (onSelect)="chooseFile($event)"
+  (onSend)="handleUpload($event)"
+  [maxFileSize]="100000000"
+  [multiple]="false"
+  [showUploadButton]="false"
+  accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+  name="file"
+  uploadLabel="Generate JSON"
+>
+  <ng-template pTemplate="toolbar">
+    <button
+      [cdkCopyToClipboard]="jsonResponse"
+      [disabled]="!jsonResponse"
+      pButton
+    >
+      Copy
+    </button>
+  </ng-template>
+  <ng-template let-file pTemplate="file">
+    <div [innerText]="jsonResponse" class="result" id="json"></div>
+  </ng-template>
+</p-fileUpload>

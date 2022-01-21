@@ -1,0 +1,53 @@
+<p-toast key="loginError" position="top-center"></p-toast>
+<form
+  (ngSubmit)="authenticate(emailInput.value, passwordInput.value)"
+  class="auth-form"
+>
+  <div class="auth-form__input">
+    <mat-form-field appearance="legacy">
+      <input
+        #emailInput
+        [formControl]="email"
+        [readonly]="isLoading"
+        matInput
+        placeholder="Email"
+      />
+      <mat-error *ngIf="email.invalid">{{ getEmailErrorMessage() }}</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="auth-form__input">
+    <mat-form-field appearance="legacy">
+      <input
+        #passwordInput
+        [formControl]="password"
+        [readonly]="isLoading"
+        matInput
+        placeholder="Password"
+        type="password"
+      />
+      <mat-error *ngIf="password.invalid">{{
+        getPasswordErrorMessage()
+      }}</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="btn-group">
+    <button
+      (click)="onSwitchMode()"
+      [disabled]="isLoading"
+      color="primary"
+      mat-raised-button
+      type="button"
+    >
+      Switch to {{ isLogin ? 'Signup' : 'Login' }}
+    </button>
+    <button
+      (click)="authenticate(emailInput.value, passwordInput.value)"
+      [disabled]="!email.valid || !password.valid || isLoading"
+      color="primary"
+      mat-raised-button
+      type="submit"
+    >
+      {{ isLogin ? 'Login' : 'Signup' }}
+    </button>
+  </div>
+</form>

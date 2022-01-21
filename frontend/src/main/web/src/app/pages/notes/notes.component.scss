@@ -1,0 +1,52 @@
+.notes {
+  text-align: center;
+  margin-bottom: 2rem;
+  mat-form-field {
+    width: 80vw;
+    margin: auto;
+  }
+  &__content {
+    text-align: left;
+    width: 80vw;
+    margin: auto;
+    padding-bottom: 1rem;
+  }
+  .btn-group {
+    display: flex;
+    width: 80vw;
+    justify-content: center;
+    margin: auto;
+    gap: 0.5rem;
+    button {
+      width: 30vw;
+    }
+  }
+  &-display {
+    text-align: left;
+    width: 80vw;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    &__wrapper {
+      border: 1px solid black;
+      word-break: break-word;
+      padding: 1rem;
+      border-radius: 10px;
+      background: #feff9c;
+      margin-bottom: 1rem;
+      .delete {
+        cursor: pointer;
+        &__area {
+          display: flex;
+          gap: 1rem;
+          justify-content: flex-end;
+        }
+      }
+
+      .edit {
+        cursor: pointer;
+      }
+    }
+  }
+}
