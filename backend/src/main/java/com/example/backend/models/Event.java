@@ -15,9 +15,9 @@ public class Event {
     private String id;
     @Column
     private Boolean allDay;
-    @Column
+    @Column(name = "START_DATE")
     private String start;
-    @Column
+    @Column(name = "END_DATE")
     private String end;
     @Column
     private String title;
