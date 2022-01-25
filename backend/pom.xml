@@ -135,6 +135,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -144,46 +147,10 @@
                     <packagingExcludes>WEB-INF/lib/tomcat-*.jar</packagingExcludes>
                 </configuration>
             </plugin>
-            <!--            This plugin is for installing external jar file-->
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-install-plugin</artifactId>-->
-            <!--                <version>3.0.0-M1</version>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <id>install-external-sec</id>-->
-            <!--                        <phase>clean</phase>-->
-            <!--                        <configuration>-->
-            <!--                            <file>${basedir}/libs/BoschOfficeSans.jar</file>-->
-            <!--                            <repositoryLayout>default</repositoryLayout>-->
-            <!--                            <groupId>com.bosch.commons</groupId>-->
-            <!--                            <artifactId>font-bosch-office-sans</artifactId>-->
-            <!--                            <version>1.0.0</version>-->
-            <!--                            <packaging>jar</packaging>-->
-            <!--                            <generatePom>true</generatePom>-->
-            <!--                        </configuration>-->
-            <!--                        <goals>-->
-            <!--                            <goal>install-file</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                    <execution>-->
-            <!--                        <id>install-external-tt</id>-->
-            <!--                        <phase>clean</phase>-->
-            <!--                        <configuration>-->
-            <!--                            <file>${basedir}/libs/BoschScriptRegular.jar</file>-->
-            <!--                            <repositoryLayout>default</repositoryLayout>-->
-            <!--                            <groupId>com.bosch.commons</groupId>-->
-            <!--                            <artifactId>font-bosch-script-regular</artifactId>-->
-            <!--                            <version>1.0.0</version>-->
-            <!--                            <packaging>jar</packaging>-->
-            <!--                            <generatePom>true</generatePom>-->
-            <!--                        </configuration>-->
-            <!--                        <goals>-->
-            <!--                            <goal>install-file</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
