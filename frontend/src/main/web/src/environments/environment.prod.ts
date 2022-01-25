@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://tools.devontop.com:8081/api',
+  apiUrl: 'http://172.0.0.1/api',
 };
