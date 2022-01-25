@@ -21,7 +21,7 @@ public class BackendApplication {
             public void addCorsMappings(CorsRegistry registry) {
                 registry
                         .addMapping("/api/**")
-                        .allowedOrigins("http://localhost:8081", "http://localhost:4200")
+                        .allowedOrigins("http://localhost:8081", "http://localhost:4200", "https://tools.devontop.com")
                         .allowedMethods("GET", "POST", "PUT");
             }
         };
