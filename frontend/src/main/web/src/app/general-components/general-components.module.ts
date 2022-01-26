@@ -27,7 +27,7 @@ const appRoute: Routes = [
     component: GenerateJsonComponent,
   },
   {
-    path: 'notes',
+    path: 'note',
     component: NotesComponent,
     canActivate: [AuthGuard],
   },

@@ -41,7 +41,7 @@ export class MenuBarComponent implements OnInit {
     },
     {
       title: 'Notes',
-      url: 'notes',
+      url: 'note',
       icon: 'edit_note',
     },
     {
