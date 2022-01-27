@@ -30,6 +30,7 @@ import { MatSort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatPaginator } from '@angular/material/paginator';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface DialogData {
   title: string;
@@ -96,7 +97,8 @@ export class CalendarComponent implements OnInit {
                 this.ngOnInit();
               });
           },
-          () => {
+          (err: HttpErrorResponse) => {
+            console.log(err);
             this.snackBar.open('Failed to add event', '', {
               duration: 1000,
             });
