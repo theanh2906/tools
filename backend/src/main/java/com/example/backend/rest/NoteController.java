@@ -31,7 +31,7 @@ public class NoteController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("")
+    @PostMapping("/new")
     @Operation(summary = "Add new note")
     public ResponseEntity<?> addNote(@RequestBody Note note) {
         return ResponseEntity.ok(noteService.addNote(note));

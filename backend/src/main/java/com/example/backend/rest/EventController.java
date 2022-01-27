@@ -30,7 +30,7 @@ public class EventController {
     }
 
     @Operation(summary = "Add new event")
-    @PostMapping("")
+    @PostMapping("/new")
     public ResponseEntity<?> addEvent(@RequestBody Event event) {
         return ResponseEntity.ok(eventService.addEvent(event));
     }

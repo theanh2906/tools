@@ -27,7 +27,7 @@ export class NotesService {
   }
 
   addNote = (note: Note) => {
-    return this.http.post<any>(`${environment.apiUrl}/notes`, {
+    return this.http.post<any>(`${environment.apiUrl}/notes/new`, {
       ...note,
       id: null,
       isEdit: null,

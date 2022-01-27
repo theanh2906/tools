@@ -35,7 +35,7 @@ export class EventService {
     return this.http.get<any>(`${environment.apiUrl}/events`);
   };
   addEvent = (event: EventInput) => {
-    return this.http.post<any>(`${environment.apiUrl}/events`, event);
+    return this.http.post<any>(`${environment.apiUrl}/events/new`, event);
   };
   deleteEvent = (eventId: string) => {
     return this.http.delete(`${environment.apiUrl}/events/${eventId}.json`);
