@@ -70,7 +70,7 @@ export class AuthService implements OnDestroy {
         StringUtils.encode({ email, password })
       )
       .pipe(
-        tap(this.setUserData.bind(this)),
+        tap(this.setUserData),
         tap(() => {
           this.autoLogin().subscribe();
         })

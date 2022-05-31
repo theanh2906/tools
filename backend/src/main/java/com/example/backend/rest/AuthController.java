@@ -83,7 +83,8 @@ public class AuthController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseDto<>(false, "Invalid encoded string"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseDto<>(false, "Invalid credential"));
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseDto<>(false, e.getMessage()));
         }
     }
 

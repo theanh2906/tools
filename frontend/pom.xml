@@ -16,7 +16,6 @@
         <npm.version>8.3.0</npm.version>
         <maven-war-plugin.version>3.3.2</maven-war-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.prod.skip>true</maven.prod.skip>
     </properties>
     <build>
         <plugins>
@@ -47,15 +46,15 @@
                             <arguments>install --verbose</arguments>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>npm run build</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>run build --verbose</arguments>
-                        </configuration>
-                    </execution>
+<!--                    <execution>-->
+<!--                        <id>npm run build</id>-->
+<!--                        <goals>-->
+<!--                            <goal>npm</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <arguments>run build &#45;&#45;verbose</arguments>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
                     <execution>
                         <id>prod</id>
                         <goals>
@@ -64,6 +63,17 @@
                         <configuration>
                             <skip>${maven.prod.skip}</skip>
                             <arguments>run-script build-prod</arguments>
+                        </configuration>
+                        <phase>generate-resources</phase>
+                    </execution>
+                    <execution>
+                        <id>local</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${maven.local.skip}</skip>
+                            <arguments>run-script build-local</arguments>
                         </configuration>
                         <phase>generate-resources</phase>
                     </execution>
