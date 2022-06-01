@@ -56,27 +56,27 @@
 <!--                        </configuration>-->
 <!--                    </execution>-->
                     <execution>
-                        <id>prod</id>
+                        <id>${profile.active}</id>
                         <goals>
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <skip>${maven.prod.skip}</skip>
-                            <arguments>run-script build-prod</arguments>
+                            <skip>false</skip>
+                            <arguments>run-script build-${profile.active}</arguments>
                         </configuration>
                         <phase>generate-resources</phase>
                     </execution>
-                    <execution>
-                        <id>local</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <skip>${maven.local.skip}</skip>
-                            <arguments>run-script build-local</arguments>
-                        </configuration>
-                        <phase>generate-resources</phase>
-                    </execution>
+<!--                    <execution>-->
+<!--                        <id>local</id>-->
+<!--                        <goals>-->
+<!--                            <goal>npm</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <skip>${maven.local.skip}</skip>-->
+<!--                            <arguments>run-script build-local</arguments>-->
+<!--                        </configuration>-->
+<!--                        <phase>generate-resources</phase>-->
+<!--                    </execution>-->
                 </executions>
             </plugin>
         </plugins>

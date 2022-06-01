@@ -25,6 +25,7 @@
         <spring.boot.version>2.6.2</spring.boot.version>
         <maven.prod.skip>true</maven.prod.skip>
         <maven.local.skip>true</maven.local.skip>
+        <profile.active>dev</profile.active>
     </properties>
 
 </project>
