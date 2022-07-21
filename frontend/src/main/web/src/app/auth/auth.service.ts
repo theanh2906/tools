@@ -63,7 +63,7 @@ export class AuthService implements OnDestroy {
 
   ngOnDestroy(): void {}
 
-  login = (email: string, password: string) => {
+  login = (email: string, password?: string) => {
     return this.http
       .post<AuthResponseData>(
         `${this.appConfig.endpoints.auth.login}`,

@@ -49,6 +49,11 @@ export class MenuBarComponent implements OnInit {
       url: 'generate-json',
       icon: 'code',
     },
+    {
+      title: 'Storage',
+      url: 'storage',
+      icon: 'cloud_upload',
+    },
   ];
 
   mobileQueryListener: () => void;

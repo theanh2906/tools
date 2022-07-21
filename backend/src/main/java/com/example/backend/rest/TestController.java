@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -49,5 +50,10 @@ public class TestController {
     @GetMapping("/users")
     public List<User> findAll() {
         return repository.findAll();
+    }
+
+    @GetMapping("/header")
+    public String getHeader(HttpServletRequest request) {
+        return request.getHeader("iv-user");
     }
 }

@@ -20,6 +20,8 @@ import { MessageService } from 'primeng/api';
 import { NotesComponent } from './notes/notes.component';
 import { EditorComponent } from './notes/editor/editor.component';
 import { RedirectComponent } from './redirect/redirect.component';
+import { StorageComponent } from './storage/storage.component';
+import { PipesModule } from "../pipes/pipes.module";
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { RedirectComponent } from './redirect/redirect.component';
     NotesComponent,
     EditorComponent,
     RedirectComponent,
+    StorageComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +47,7 @@ import { RedirectComponent } from './redirect/redirect.component';
     HttpClientModule,
     GeneralComponentsModule,
     DragDropModule,
+    PipesModule
   ],
   providers: [MessageService],
 })

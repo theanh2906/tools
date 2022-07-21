@@ -19,6 +19,7 @@
     <mat-form-field appearance="legacy">
       <input
         #passwordInput
+        [disabled]="true"
         [formControl]="password"
         [readonly]="isLoading"
         matInput

@@ -1,0 +1,43 @@
+<p-toast></p-toast>
+<p>Upload image:</p>
+<p-fileUpload
+  (onUpload)="onUpload($event)"
+  [maxFileSize]="100000000"
+  [multiple]="true"
+  accept="image/*"
+  name="file"
+  uploadLabel="Upload images"
+  url="http://localhost:8081/api/storage/upload-images"
+>
+  <ng-template pTemplate="toolbar">
+    <!--    <button-->
+    <!--      (click)="uploadFile()"-->
+    <!--      [disabled]="selectedFiles.length < 1"-->
+    <!--      pButton-->
+    <!--    >-->
+    <!--      Upload-->
+    <!--    </button>-->
+    <button
+      (click)="deleteAllImages()"
+      [disabled]="allImages.length < 1"
+      pButton
+    >
+      Delete all
+    </button>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <ul *ngIf="uploadedFiles.length">
+      <li *ngFor="let file of uploadedFiles">
+        {{ file.name }}
+      </li>
+    </ul>
+  </ng-template>
+</p-fileUpload>
+<div *ngIf="allImages.length > 0" class="gallery">
+  <img
+    *ngFor="let image of allImages"
+    [alt]="image.name"
+    [src]="image.url"
+    class="gallery-image"
+  />
+</div>

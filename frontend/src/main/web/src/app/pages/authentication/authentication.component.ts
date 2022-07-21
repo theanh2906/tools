@@ -34,20 +34,24 @@ export class AuthenticationComponent implements OnInit {
     this.isLogin = !this.isLogin;
   };
 
-  authenticate = (email: string, password: string) => {
+  authenticate = (email: string, password?: string) => {
     this.isLoading = true;
-    let authObs: Observable<AuthResponseData>;
-    if (this.isLogin) {
-      authObs = this.authService.login(email, password);
-    } else {
-      authObs = this.authService.signup(email, password);
+    let authObs: Observable<AuthResponseData> =
+      new Observable<AuthResponseData>();
+    if (password) {
+      if (this.isLogin) {
+        authObs = this.authService.login(email, password);
+      } else {
+        authObs = this.authService.signup(email, password);
+      }
     }
-    authObs.subscribe(
-      () => {
+
+    authObs.subscribe({
+      next: () => {
         this.isLoading = false;
         this.router.navigateByUrl(this.cachesService.getPreviousUrl());
       },
-      (error) => {
+      error: (error) => {
         const errorCode = error.error.error.message;
         switch (errorCode) {
           case 'INVALID_PASSWORD':
@@ -61,8 +65,8 @@ export class AuthenticationComponent implements OnInit {
             break;
         }
         this.isLoading = false;
-      }
-    );
+      },
+    });
   };
   getEmailErrorMessage = () => {
     if (this.email.hasError('required')) {

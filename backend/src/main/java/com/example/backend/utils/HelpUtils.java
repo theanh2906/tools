@@ -35,4 +35,12 @@ public class HelpUtils {
     public static String stringifyJson(Object object) {
         return new JSONObject(object).toString();
     }
+
+    public static String toBase64(byte[] bytes) {
+        return Base64.getEncoder().encodeToString(bytes);
+    }
+
+    public static String createBase64Image(byte[] bytes) {
+        return "data:image/jpeg;base64," + toBase64(bytes);
+    }
 }

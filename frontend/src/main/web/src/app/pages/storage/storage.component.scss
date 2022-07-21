@@ -1,0 +1,36 @@
+.gallery {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  &-image {
+    width: 19.75vw;
+    height: 19.75vw;
+    padding: 0;
+    object-fit: cover;
+    @media (max-width: 1024px) {
+      width: 19.4vw;
+      height: 19.4vw;
+    }
+
+    @media (max-width: 768px) {
+      width: 23.83vw;
+      height: 23.83vw;
+    }
+    @media (max-width: 480px) {
+      width: 31vw;
+      height: 31vw;
+    }
+
+    @media (max-width: 320px) {
+      width: 30vw;
+      height: 30vw;
+    }
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: auto auto auto auto;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: auto auto auto;
+  }
+}

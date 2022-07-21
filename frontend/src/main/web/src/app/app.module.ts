@@ -14,6 +14,8 @@ import {
 } from '@angular/common';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { APP_CONFIG, AppConfig } from './config/app.config';
+import { PipesModule } from './pipes/pipes.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,6 +27,8 @@ import { APP_CONFIG, AppConfig } from './config/app.config';
     GeneralComponentsModule,
     PagesModule,
     HttpClientModule,
+    PipesModule,
+    NgxSpinnerModule,
   ],
   providers: [
     Location,

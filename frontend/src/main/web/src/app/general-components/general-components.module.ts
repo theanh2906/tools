@@ -11,6 +11,7 @@ import { AuthenticationComponent } from '../pages/authentication/authentication.
 import { AuthGuard } from '../auth/auth.guard';
 import { NotesComponent } from '../pages/notes/notes.component';
 import { GenerateJsonComponent } from '../pages/generate-json/generate-json.component';
+import { StorageComponent } from "../pages/storage/storage.component";
 
 const appRoute: Routes = [
   {
@@ -39,6 +40,10 @@ const appRoute: Routes = [
   {
     path: 'auth',
     component: AuthenticationComponent,
+  },
+  {
+    path: 'storage',
+    component: StorageComponent,
   },
 ];
 

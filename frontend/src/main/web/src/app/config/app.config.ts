@@ -17,5 +17,11 @@ export const AppConfig: IAppConfig = {
       encode: `${apiUrl}/helpers/encode`,
       generateJSON: `${apiUrl}/helpers/generate-json`,
     },
+    storage: {
+      getAllFiles: `${apiUrl}/storage/images`,
+      uploadFiles: `${apiUrl}/storage/upload-images`,
+      deleteFile: `${apiUrl}/storage/images`,
+      deleteAllFiles: `${apiUrl}/storage/images`,
+    },
   },
 };

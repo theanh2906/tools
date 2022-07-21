@@ -16,6 +16,7 @@ import { ToastModule } from 'primeng/toast';
 import { TableModule } from 'primeng/table';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { EditorModule } from 'primeng/editor';
+import { CarouselModule } from "primeng/carousel";
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { EditorModule } from 'primeng/editor';
     ColorPickerModule,
     ToastModule,
     EditorModule,
+    CarouselModule
   ],
   exports: [
     FileUploadModule,
@@ -57,6 +59,7 @@ import { EditorModule } from 'primeng/editor';
     ColorPickerModule,
     ToastModule,
     EditorModule,
+    CarouselModule
   ],
   providers: [],
 })
