@@ -11,7 +11,9 @@ import { AuthenticationComponent } from '../pages/authentication/authentication.
 import { AuthGuard } from '../auth/auth.guard';
 import { NotesComponent } from '../pages/notes/notes.component';
 import { GenerateJsonComponent } from '../pages/generate-json/generate-json.component';
-import { StorageComponent } from "../pages/storage/storage.component";
+import { StorageComponent } from '../pages/storage/storage.component';
+import { QrGeneratorComponent } from '../pages/qr-generator/qr-generator.component';
+import { ChatComponent } from '../pages/chat/chat.component';
 
 const appRoute: Routes = [
   {
@@ -44,6 +46,14 @@ const appRoute: Routes = [
   {
     path: 'storage',
     component: StorageComponent,
+  },
+  {
+    path: 'qr-generator',
+    component: QrGeneratorComponent,
+  },
+  {
+    path: 'chat',
+    component: ChatComponent,
   },
 ];
 

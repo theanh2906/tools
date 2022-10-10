@@ -16,6 +16,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { APP_CONFIG, AppConfig } from './config/app.config';
 import { PipesModule } from './pipes/pipes.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,6 +35,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: APP_CONFIG, useValue: AppConfig },
   ],
   bootstrap: [AppComponent],

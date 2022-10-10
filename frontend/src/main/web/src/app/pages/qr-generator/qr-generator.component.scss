@@ -1,0 +1,12 @@
+.generator {
+  width: 100%;
+  padding: 2rem;
+  * {
+    width: 100%;
+  }
+  .btn-group {
+    display: flex;
+    gap: 1rem;
+    margin: auto;
+  }
+}

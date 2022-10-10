@@ -1,0 +1,39 @@
+<p-toast key="chat" position="top-center"></p-toast>
+<div class="chat">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input
+      [(ngModel)]="name"
+      [disabled]="isConnected"
+      matInput
+      placeholder="Type your name"
+      type="text"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <textarea
+      [(ngModel)]="text"
+      cdkAutosizeMinRows="10"
+      cdkTextareaAutosize
+      matInput
+      name="text"
+      placeholder="Type your name"
+    ></textarea>
+  </mat-form-field>
+  <div class="btn-group">
+    <button
+      (click)="connect()"
+      [disabled]="isConnected"
+      color="primary"
+      mat-raised-button
+    >
+      Connect
+    </button>
+    <button (click)="send()" color="primary" mat-raised-button>Send</button>
+  </div>
+  <div class="chat-display">
+    <h1>Messages</h1>
+    <p *ngFor="let message of chatHistory">{{ message }}</p>
+  </div>
+</div>

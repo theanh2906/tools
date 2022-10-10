@@ -5,6 +5,7 @@ import { CachesService } from '../../services/caches.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
+import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-authentication',
@@ -25,7 +26,8 @@ export class AuthenticationComponent implements OnInit {
     private authService: AuthService,
     private cachesService: CachesService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {}

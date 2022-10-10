@@ -1,0 +1,27 @@
+<div class="generator">
+  <p>Input text:</p>
+  <mat-form-field appearance="legacy">
+    <input [(ngModel)]="text" matInput placeholder="Please input text" />
+  </mat-form-field>
+  <div class="btn-group">
+    <button
+      (click)="generateQrCode()"
+      [disabled]="!text"
+      color="primary"
+      mat-raised-button
+    >
+      Generate QR Code
+    </button>
+    <button
+      (click)="downloadQrCode()"
+      [disabled]="!text"
+      color="primary"
+      mat-raised-button
+    >
+      Download QR Code
+    </button>
+  </div>
+  <div class="code">
+    <img [src]="qrCode" />
+  </div>
+</div>

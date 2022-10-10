@@ -23,5 +23,9 @@ export const AppConfig: IAppConfig = {
       deleteFile: `${apiUrl}/storage/images`,
       deleteAllFiles: `${apiUrl}/storage/images`,
     },
+    qr: {
+      image: `${apiUrl}/qr/image`,
+      download: `${apiUrl}/qr/download`,
+    },
   },
 };

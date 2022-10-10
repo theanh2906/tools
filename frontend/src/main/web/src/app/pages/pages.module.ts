@@ -22,6 +22,9 @@ import { EditorComponent } from './notes/editor/editor.component';
 import { RedirectComponent } from './redirect/redirect.component';
 import { StorageComponent } from './storage/storage.component';
 import { PipesModule } from "../pipes/pipes.module";
+import { NgxSpinnerModule } from "ngx-spinner";
+import { QrGeneratorComponent } from './qr-generator/qr-generator.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,8 @@ import { PipesModule } from "../pipes/pipes.module";
     EditorComponent,
     RedirectComponent,
     StorageComponent,
+    QrGeneratorComponent,
+    ChatComponent,
   ],
   imports: [
     CommonModule,
@@ -47,7 +52,8 @@ import { PipesModule } from "../pipes/pipes.module";
     HttpClientModule,
     GeneralComponentsModule,
     DragDropModule,
-    PipesModule
+    PipesModule,
+    NgxSpinnerModule,
   ],
   providers: [MessageService],
 })

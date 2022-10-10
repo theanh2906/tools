@@ -3,23 +3,35 @@ package com.example.backend.rest;
 import com.example.backend.dtos.ResponseDto;
 import com.example.backend.models.User;
 import com.example.backend.repositories.UserRepository;
+import com.example.backend.services.BarcodeService;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.Base64;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private BarcodeService barcodeService;
     @GetMapping("/all")
     public String allAccess() {
         return "Public access";

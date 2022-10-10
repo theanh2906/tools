@@ -54,6 +54,16 @@ export class MenuBarComponent implements OnInit {
       url: 'storage',
       icon: 'cloud_upload',
     },
+    {
+      title: 'QR Generator',
+      url: 'qr-generator',
+      icon: 'qr_code_2',
+    },
+    {
+      title: 'Chat',
+      url: 'chat',
+      icon: 'forum',
+    },
   ];
 
   mobileQueryListener: () => void;

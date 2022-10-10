@@ -33,6 +33,7 @@ export class GenerateJsonComponent implements OnInit {
       severity: 'info',
       summary: 'Successful',
       detail: '',
+      key: 'chat',
     });
     console.log(this.inputFiles[0]);
   };
