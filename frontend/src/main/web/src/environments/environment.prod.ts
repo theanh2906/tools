@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://127.0.0.1/tools/api',
+  apiUrl: 'http://benna.info:8000/tools/api',
 };
