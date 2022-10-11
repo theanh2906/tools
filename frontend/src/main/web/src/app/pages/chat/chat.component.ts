@@ -4,6 +4,7 @@ import * as SockJS from 'sockjs-client';
 import { FrameImpl } from '@stomp/stompjs';
 import { MessageService } from 'primeng/api';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-chat',
@@ -23,7 +24,7 @@ export class ChatComponent implements OnInit {
 
   connect() {
     if (!this.name) return;
-    const socket = new SockJS('http://localhost:8081/api/chat');
+    const socket = new SockJS(environment.apiUrl + '/chat');
     this.stompClient = Stomp.Stomp.over(socket);
     const _self = this;
     this.stompClient.connect({}, (frame: any) => {
