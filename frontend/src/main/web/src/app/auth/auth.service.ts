@@ -5,6 +5,9 @@ import { User } from './user.model';
 import { map, tap } from 'rxjs/operators';
 import { StringUtils } from '../helpers/string-utils';
 import { APP_CONFIG, IAppConfig } from '../config/app.config';
+import StatusResponse = facebook.StatusResponse;
+import { Utils } from '../shared/utils';
+import { CONSTANTS } from '../shared/constants';
 
 export interface AuthResponseData {
   id: string;
@@ -13,6 +16,20 @@ export interface AuthResponseData {
   email: string;
   expiresIn: string;
   roles: string[];
+}
+
+export interface FacebookLoginResponse {
+  id: string;
+  email: string;
+  name: string;
+  picture: {
+    data: {
+      height: number;
+      width: number;
+      is_silhouette: boolean;
+      url: string;
+    };
+  };
 }
 
 @Injectable({
@@ -26,7 +43,16 @@ export class AuthService implements OnDestroy {
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: IAppConfig
-  ) {}
+  ) {
+    FB.init({
+      appId: CONSTANTS.FACEBOOK.APP_ID,
+      cookie: true,
+      xfbml: true,
+      status: true,
+      version: CONSTANTS.FACEBOOK.API_VERSION,
+      autoLogAppEvents: true,
+    });
+  }
 
   get userId() {
     return this._user.asObservable().pipe(
@@ -59,6 +85,16 @@ export class AuthService implements OnDestroy {
         return null;
       })
     );
+  }
+
+  get isFacebookLogged() {
+    return !!localStorage.getItem('fb_user');
+  }
+
+  get facebookUser() {
+    return JSON.parse(
+      <string>localStorage.getItem('fb_user')
+    ) as FacebookLoginResponse;
   }
 
   ngOnDestroy(): void {}
@@ -128,6 +164,39 @@ export class AuthService implements OnDestroy {
       this._user.next(null);
     });
   };
+
+  facebookLogin() {
+    return of(
+      FB.login(
+        (response: StatusResponse) => {
+          FB.api(
+            `/${response.authResponse.userID}`,
+            {
+              fields: 'id,name,email,picture',
+              access_token: response.authResponse.accessToken,
+            },
+            (res) => {
+              localStorage.setItem('fb_user', JSON.stringify(res));
+            }
+          );
+        },
+        {
+          scope: Utils.createFacebookScopes([
+            CONSTANTS.FACEBOOK.SCOPES.EMAIL,
+            CONSTANTS.FACEBOOK.SCOPES.PUBLIC_PROFILE,
+          ]),
+        }
+      )
+    );
+  }
+
+  getFacebookInfo(response: StatusResponse) {
+    this.http
+      .get(
+        `https://graph.facebook.com/${response.authResponse.userID}/accounts?access_token=${response.authResponse.accessToken}`
+      )
+      .subscribe(console.log);
+  }
 
   private autoLogout = (duration: number) => {
     if (this.activeLogoutTimer) {

@@ -4,7 +4,7 @@
     <mat-label>Name</mat-label>
     <input
       [(ngModel)]="name"
-      [disabled]="isConnected"
+      [disabled]="isConnected || isFacebookLogged"
       matInput
       placeholder="Type your name"
       type="text"
@@ -23,17 +23,42 @@
   </mat-form-field>
   <div class="btn-group">
     <button
-      (click)="connect()"
-      [disabled]="isConnected"
+      (click)="fbLogin()"
+      *ngIf="!isFacebookLogged"
       color="primary"
       mat-raised-button
     >
-      Connect
+      Login with Facebook
     </button>
+    <!--    <button-->
+    <!--      (click)="connect()"-->
+    <!--      [disabled]="isConnected"-->
+    <!--      color="primary"-->
+    <!--      mat-raised-button-->
+    <!--    >-->
+    <!--      Connect-->
+    <!--    </button>-->
     <button (click)="send()" color="primary" mat-raised-button>Send</button>
   </div>
   <div class="chat-display">
     <h1>Messages</h1>
-    <p *ngFor="let message of chatHistory">{{ message }}</p>
+    <div class="chat-box">
+      <div
+        *ngFor="let message of chatHistory"
+        [ngStyle]="{
+          'justify-content': message.from == currentUser.name ? 'end' : 'start'
+        }"
+        class="chat-box-message"
+      >
+        <div class="avatar">
+          <img
+            [src]="currentUser.picture.data.url"
+            alt="${{ currentUser.name }}_avatar"
+          />
+        </div>
+        <p>{{ message.text }}</p>
+        <div class="time">{{ message.time }}</div>
+      </div>
+    </div>
   </div>
 </div>

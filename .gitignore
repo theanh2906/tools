@@ -49,3 +49,4 @@ Thumbs.db
 /frontend/src/main/web/node
 /frontend/src/main/web/node_modules
 /backend/target
+.angular

@@ -10,6 +10,24 @@ export interface Image {
   lastModifiedDate: string;
 }
 
+export interface FileFolder {
+  id: string;
+  linkcode: string;
+  name: string;
+  secure: string;
+  directlink: string;
+  type: string;
+  path: string;
+  size: string;
+  downloadcount: string;
+  mimetype: string;
+  created: string;
+  pwd: string;
+  allow_follow: string;
+  num_follower: string;
+  children: FileFolder[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
