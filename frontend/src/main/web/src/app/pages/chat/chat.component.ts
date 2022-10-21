@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import * as Stomp from '@stomp/stompjs';
+import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import { FrameImpl } from '@stomp/stompjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../environments/environment';
 import { AuthService, FacebookLoginResponse } from '../../auth/auth.service';
-
+import * as uuid from 'uuid';
 export interface Message {
   from?: string;
   time?: string;
@@ -35,29 +35,19 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.authService.isFacebookLogged) {
-      this.name = this.authService.facebookUser.name;
-      this.connect();
-      this.snackbar.open(
-        this.authService.facebookUser.name + ' is connected!',
-        '',
-        {
-          duration: 2000,
-        }
-      );
-      this.currentUser = this.authService.facebookUser;
-    }
+    this.name = uuid.v4();
+    this.connect();
   }
 
   connect() {
     if (!this.name) return;
     const socket = new SockJS(environment.apiUrl + '/chat');
-    this.stompClient = Stomp.Stomp.over(socket);
+    this.stompClient = Stomp.over(socket);
     const _self = this;
     this.stompClient.connect({}, (frame: any) => {
       this.isConnected = true;
       console.log('Connected: ' + frame);
-      _self.stompClient.subscribe('/topic/message', (res: FrameImpl) => {
+      _self.stompClient.subscribe('/topic/public', (res: FrameImpl) => {
         let mess = JSON.parse(res.body) as Message;
         this.snackbar.open(mess.from + ' has commented!', '', {
           duration: 2000,
@@ -70,7 +60,7 @@ export class ChatComponent implements OnInit {
   send() {
     if (!this.text) return;
     this.stompClient.send(
-      '/api/app/chat',
+      '/api/app/chat.send',
       {},
       JSON.stringify({ from: this.name, text: this.text })
     );

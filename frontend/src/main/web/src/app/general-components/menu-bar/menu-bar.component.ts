@@ -64,6 +64,16 @@ export class MenuBarComponent implements OnInit {
       url: 'chat',
       icon: 'forum',
     },
+    {
+      title: 'Admin',
+      url: 'admin',
+      icon: 'admin_panel_settings',
+    },
+    {
+      title: 'Video call',
+      url: 'video-call',
+      icon: 'video_call',
+    },
   ];
 
   mobileQueryListener: () => void;

@@ -1,0 +1,42 @@
+<mat-grid-list cols="2" rowHeight="2:1">
+  <mat-grid-tile>
+    <p class="video-description">local:</p>
+    <video #local_video [autoplay]="true" [muted]="true"></video>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <p class="video-description">remote:</p>
+    <video #received_video [autoplay]="true"></video>
+  </mat-grid-tile>
+</mat-grid-list>
+<button
+  (click)="startLocalVideo()"
+  [disabled]="localVideoActive"
+  color="primary"
+  mat-raised-button
+>
+  Start Local
+</button>
+<button
+  (click)="pauseLocalVideo()"
+  [disabled]="!localVideoActive"
+  color="primary"
+  mat-raised-button
+>
+  Stop Local
+</button>
+<button
+  (click)="call()"
+  [disabled]="inCall || !localVideoActive"
+  color="primary"
+  mat-raised-button
+>
+  Call
+</button>
+<button
+  (click)="hangUp()"
+  [disabled]="!inCall"
+  color="primary"
+  mat-raised-button
+>
+  HangUp
+</button>

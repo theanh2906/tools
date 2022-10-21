@@ -5,6 +5,14 @@
 export const environment = {
   production: false,
   apiUrl: 'http://127.0.0.1:8081/api',
+  wsEndpoint: 'ws://127.0.0.1:8081/socket',
+  RTCPeerConfiguration: {
+    iceServers: [
+      {
+        urls: 'stun:stun1.l.google.com:19302',
+      },
+    ],
+  },
 };
 
 /*

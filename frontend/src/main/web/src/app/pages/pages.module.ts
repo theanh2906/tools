@@ -21,10 +21,12 @@ import { NotesComponent } from './notes/notes.component';
 import { EditorComponent } from './notes/editor/editor.component';
 import { RedirectComponent } from './redirect/redirect.component';
 import { StorageComponent } from './storage/storage.component';
-import { PipesModule } from "../pipes/pipes.module";
-import { NgxSpinnerModule } from "ngx-spinner";
+import { PipesModule } from '../pipes/pipes.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { QrGeneratorComponent } from './qr-generator/qr-generator.component';
 import { ChatComponent } from './chat/chat.component';
+import { AdminComponent } from './admin/admin.component';
+import { VideoCallComponent } from './video-call/video-call.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { ChatComponent } from './chat/chat.component';
     StorageComponent,
     QrGeneratorComponent,
     ChatComponent,
+    AdminComponent,
+    VideoCallComponent,
   ],
   imports: [
     CommonModule,

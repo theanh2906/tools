@@ -1,0 +1,28 @@
+<div class="admin">
+  <h1>Candidate List</h1>
+  <table>
+    <tr>
+      <th>Id</th>
+      <th>Id</th>
+    </tr>
+    <tr *ngFor="let candidate of candidates">
+      <td>{{ candidate }}</td>
+      <td>{{ candidate }}</td>
+    </tr>
+  </table>
+</div>
+<mat-form-field>
+  <mat-label>Name</mat-label>
+  <input
+    [(ngModel)]="currentUser"
+    [disabled]="true"
+    matInput
+    placeholder="Type your name"
+    type="text"
+  />
+</mat-form-field>
+<!--<mat-form-field>-->
+<!--  <mat-label>To</mat-label>-->
+<!--  <input [(ngModel)]="to" matInput placeholder="Type your name" type="text" />-->
+<!--</mat-form-field>-->
+<!--<button (click)="send()" color="primary" mat-raised-button>Send</button>-->

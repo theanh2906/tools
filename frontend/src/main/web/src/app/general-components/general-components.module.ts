@@ -14,6 +14,8 @@ import { GenerateJsonComponent } from '../pages/generate-json/generate-json.comp
 import { StorageComponent } from '../pages/storage/storage.component';
 import { QrGeneratorComponent } from '../pages/qr-generator/qr-generator.component';
 import { ChatComponent } from '../pages/chat/chat.component';
+import { AdminComponent } from '../pages/admin/admin.component';
+import { VideoCallComponent } from '../pages/video-call/video-call.component';
 
 const appRoute: Routes = [
   {
@@ -54,6 +56,14 @@ const appRoute: Routes = [
   {
     path: 'chat',
     component: ChatComponent,
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
+  },
+  {
+    path: 'video-call',
+    component: VideoCallComponent,
   },
 ];
 

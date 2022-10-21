@@ -1,23 +1,52 @@
 package com.example.backend.rest;
 
+import com.example.backend.dtos.ChatMessage;
+import com.example.backend.dtos.CheckInDto;
 import com.example.backend.dtos.Message;
 import com.example.backend.dtos.OutputMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessageType;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
 @RequestMapping("/api")
 public class SocketController {
-    @MessageMapping("/chat")
-    @SendTo("/topic/message")
-    public OutputMessage send(final Message message) {
-        final String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
-        return new OutputMessage(message.getFrom(), message.getText(), time);
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
+    @MessageMapping("/chat.send")
+    @SendTo("/topic/public")
+    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
+        return chatMessage;
+    }
+
+    @MessageMapping("/secured/room")
+    public void sendSpecific(@Payload Message message, Principal user, @Header("simpSessionId") String sessionId) {
+        OutputMessage out = new OutputMessage(message.getFrom(), message.getText(), new SimpleDateFormat("HH:mm").format(new Date()));
+        SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);
+        headerAccessor.setSessionId(message.getTo());
+        headerAccessor.setLeaveMutable(true);
+        simpMessagingTemplate.convertAndSendToUser(message.getTo(), "/secured/user/queue/specific-user", out, headerAccessor.getMessageHeaders());
+    }
+
+    @MessageMapping("/chat.check-in")
+    @SendTo("/topic/public")
+    public ChatMessage addUser(@Payload ChatMessage chatMessage,
+                               SimpMessageHeaderAccessor headerAccessor) {
+        // Add username in web socket session
+        if (headerAccessor != null && headerAccessor.getSessionAttributes() != null) {
+            headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+        }
+        return chatMessage;
     }
 }

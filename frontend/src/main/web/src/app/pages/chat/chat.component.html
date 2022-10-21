@@ -46,15 +46,12 @@
       <div
         *ngFor="let message of chatHistory"
         [ngStyle]="{
-          'justify-content': message.from == currentUser.name ? 'end' : 'start'
+          'justify-content': message.from == name ? 'end' : 'start'
         }"
         class="chat-box-message"
       >
         <div class="avatar">
-          <img
-            [src]="currentUser.picture.data.url"
-            alt="${{ currentUser.name }}_avatar"
-          />
+          <img [src]="" alt="${{ name }}_avatar" />
         </div>
         <p>{{ message.text }}</p>
         <div class="time">{{ message.time }}</div>

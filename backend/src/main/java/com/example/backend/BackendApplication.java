@@ -23,6 +23,7 @@ public class BackendApplication extends SpringBootServletInitializer {
                 registry
                         .addMapping("/api/**")
                         .allowedOrigins("http://localhost:8081", "http://localhost:4200", "https://tools.devontop.com")
+                        .allowCredentials(true)
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
         };
