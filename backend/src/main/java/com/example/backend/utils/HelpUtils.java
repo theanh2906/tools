@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 import java.util.Map;
 
@@ -42,5 +44,16 @@ public class HelpUtils {
 
     public static String createBase64Image(byte[] bytes) {
         return "data:image/jpeg;base64," + toBase64(bytes);
+    }
+
+    public static void createDirectory(String path) {
+        Path directory = Path.of(path);
+        if (!Files.exists(directory)) {
+            try {
+                Files.createDirectory(directory);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

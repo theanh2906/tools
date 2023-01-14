@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../environments/environment';
 import { AuthService, FacebookLoginResponse } from '../../auth/auth.service';
 import * as uuid from 'uuid';
+import { SocketService } from '../../services/socket.service';
 export interface Message {
   from?: string;
   time?: string;
@@ -27,7 +28,8 @@ export class ChatComponent implements OnInit {
   currentUser!: FacebookLoginResponse;
   constructor(
     private snackbar: MatSnackBar,
-    private authService: AuthService
+    private authService: AuthService,
+    private socket: SocketService
   ) {}
 
   get isFacebookLogged() {
@@ -35,34 +37,33 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.name = uuid.v4();
     this.connect();
   }
 
   connect() {
-    if (!this.name) return;
-    const socket = new SockJS(environment.apiUrl + '/chat');
-    this.stompClient = Stomp.over(socket);
-    const _self = this;
-    this.stompClient.connect({}, (frame: any) => {
+    this.socket.stompClient.connect({}, (frame: any) => {
+      console.log(this.socket.stompClient.ws._transport.url);
+      this.name = this.socket.stompClient.ws._transport.url.split('/')[6];
       this.isConnected = true;
       console.log('Connected: ' + frame);
-      _self.stompClient.subscribe('/topic/public', (res: FrameImpl) => {
-        let mess = JSON.parse(res.body) as Message;
-        this.snackbar.open(mess.from + ' has commented!', '', {
-          duration: 2000,
-        });
-        this.chatHistory.push(mess);
-      });
+      this.socket.stompClient.subscribe(
+        '/private/user' + '-user' + this.name,
+        (messageOut: FrameImpl) => {
+          alert(JSON.parse(messageOut.body).text);
+        }
+      );
     });
   }
 
   send() {
-    if (!this.text) return;
-    this.stompClient.send(
-      '/api/app/chat.send',
+    this.socket.stompClient.send(
+      '/api/app/private',
       {},
-      JSON.stringify({ from: this.name, text: this.text })
+      JSON.stringify({
+        from: this.name,
+        to: this.name,
+        text: `Hello ${this.name}`,
+      })
     );
   }
 

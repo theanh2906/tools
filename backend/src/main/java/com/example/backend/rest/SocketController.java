@@ -30,13 +30,13 @@ public class SocketController {
         return chatMessage;
     }
 
-    @MessageMapping("/secured/room")
+    @MessageMapping("/private")
     public void sendSpecific(@Payload Message message, Principal user, @Header("simpSessionId") String sessionId) {
         OutputMessage out = new OutputMessage(message.getFrom(), message.getText(), new SimpleDateFormat("HH:mm").format(new Date()));
         SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);
         headerAccessor.setSessionId(message.getTo());
         headerAccessor.setLeaveMutable(true);
-        simpMessagingTemplate.convertAndSendToUser(message.getTo(), "/secured/user/queue/specific-user", out, headerAccessor.getMessageHeaders());
+        simpMessagingTemplate.convertAndSendToUser(message.getTo(), "/private/user", out, headerAccessor.getMessageHeaders());
     }
 
     @MessageMapping("/chat.check-in")

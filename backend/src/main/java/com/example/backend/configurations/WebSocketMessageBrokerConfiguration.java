@@ -12,15 +12,15 @@ public class WebSocketMessageBrokerConfiguration implements WebSocketMessageBrok
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
-                .addEndpoint("/api/websocket","/api/secured/room")
+                .addEndpoint("/api/websocket")
                 .setAllowedOrigins("http://localhost:4200", "http://benna.info:8000")
                 .withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/topic", "/secured/user/queue/specific-user");
+        registry.enableSimpleBroker("/topic", "/private/user");
         registry.setApplicationDestinationPrefixes("/api/app");
-        registry.setUserDestinationPrefix("/secured/user");
+        registry.setUserDestinationPrefix("/private/user");
     }
 }

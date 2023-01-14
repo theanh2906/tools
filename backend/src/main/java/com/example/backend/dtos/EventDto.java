@@ -1,9 +1,13 @@
 package com.example.backend.dtos;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter @Setter
+@Builder
 public class EventDto {
+    private String id;
     private Boolean allDay;
     private String start;
     private String end;

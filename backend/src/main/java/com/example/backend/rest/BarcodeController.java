@@ -4,6 +4,7 @@ import com.example.backend.services.BarcodeService;
 import org.apache.kafka.common.protocol.types.Field;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +50,7 @@ public class BarcodeController {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(barcodeService.generateQRCode(text), "png", baos);
             response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-            response.setHeader("Content-Disposition", "attachment;filename=qr.jpg");
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=qr.jpg");
             InputStream inputStream = new BufferedInputStream(new ByteArrayInputStream(baos.toByteArray()));
             IOUtils.copy(inputStream, response.getOutputStream());
             IOUtils.closeQuietly(response.getOutputStream());

@@ -6,6 +6,8 @@ import SockJS from 'sockjs-client';
 import { environment } from '../environments/environment';
 import { FrameImpl, Stomp } from '@stomp/stompjs';
 import * as uuid from 'uuid';
+import { MessageType } from './shared/models';
+import { SocketService } from './services/socket.service';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +21,11 @@ export class AppComponent implements OnInit, OnDestroy {
   private authSub!: Subscription;
   private previousAuthState = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private socket: SocketService
+  ) {}
 
   ngOnDestroy(): void {
     if (this.authSub) {
@@ -42,29 +48,31 @@ export class AppComponent implements OnInit, OnDestroy {
 
   connect() {
     const socket = new SockJS(`${environment.apiUrl}/websocket`);
-    this.stompClient = Stomp.over(socket);
-    this.stompClient.connect({}, (res: any) => {
-      console.log(this.stompClient.ws._transport.url.split('/')[6]);
-      this.username = this.stompClient.ws._transport.url.split('/')[6];
+    this.socket.setStompClient(Stomp.over(socket));
+    this.socket.stompClient.connect({}, (res: any) => {
+      console.log(this.socket.stompClient.ws._transport.url.split('/')[6]);
+      this.username = this.socket.stompClient.ws._transport.url.split('/')[6];
       this.checkIn();
     });
   }
 
   checkIn() {
-    this.stompClient.send(
+    this.socket.stompClient.send(
       '/api/app/chat.check-in',
       {},
       JSON.stringify({
+        type: MessageType.JOIN,
         sender: this.username,
       })
     );
   }
 
   checkOut() {
-    this.stompClient.send(
-      '/api/app/chat',
+    this.socket.stompClient.send(
+      '/api/app/chat.check-in',
       {},
       JSON.stringify({
+        type: MessageType.LEAVE,
         sender: this.username,
       })
     );
