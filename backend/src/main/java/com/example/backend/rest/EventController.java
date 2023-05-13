@@ -11,11 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -48,10 +46,26 @@ public class EventController {
             List<EventDto> listEvents = new ArrayList<>();
             map.keySet().forEach((event -> {
                 String id = (String) event;
-                 listEvents.add(EventDto.builder().id(id).title(((EventDto) map.get(id)).getTitle()).build());
+                 listEvents.add(EventDto.builder()
+                         .id(id)
+                         .title((String) ((LinkedHashMap<?, ?>) map.get(id)).get("title"))
+                         .allDay((Boolean) ((LinkedHashMap<?, ?>) map.get(id)).get("allDay"))
+                         .start((String) ((LinkedHashMap<?, ?>) map.get(id)).get("start"))
+                         .end((String) ((LinkedHashMap<?, ?>) map.get(id)).get("end"))
+                         .build());
             }));
             return Flux.fromIterable(listEvents);
         });
+        eventService.deleteAll();
+        response.flatMap((each) -> {
+            eventService.addEvent(EventMapper.toModel(each));
+            return Mono.just(each);
+        }).subscribe();
         return response;
+    }
+
+    @GetMapping("/sync")
+    public ResponseEntity<?> syncCalender() {
+        return ResponseEntity.ok(null);
     }
 }

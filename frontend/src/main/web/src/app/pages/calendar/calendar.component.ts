@@ -116,17 +116,17 @@ export class CalendarComponent implements OnInit {
     });
     this.options = {
       initialView: 'dayGridMonth',
-      // footerToolbar: {
-      //   center: 'addNewEventButton',
-      // },
+      footerToolbar: {
+        center: 'syncCalendar',
+      },
       headerToolbar: {
         right: 'prev,next,today',
       },
       customButtons: {
-        addNewEventButton: {
-          text: 'Add new event',
+        syncCalendar: {
+          text: 'Sync Calendar',
           click: () => {
-            this.openDialog();
+            this.handleSyncCalendar();
           },
         },
       },
@@ -153,6 +153,13 @@ export class CalendarComponent implements OnInit {
       this.backgroundColor = result.backgroundColor;
     });
   };
+
+  private handleSyncCalendar() {
+    this.eventService.getEventsFromFirebase().subscribe(() => {
+      this.isAdded.emit(true);
+      this.ngOnInit();
+    });
+  }
 }
 
 @Component({

@@ -27,6 +27,7 @@ import java.util.zip.ZipOutputStream;
 public class WebCrawlerService {
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
+
     public List<String> findImageLinks(String url, String selector, String imageAttribute) {
         try {
             Document document = Jsoup
@@ -107,7 +108,7 @@ public class WebCrawlerService {
             }
             findImageLinks(params.get("url"), params.get("selector"), params.get("imageAttribute")).forEach(link -> {
                 try {
-                    FileUtils.copyURLToFile(new URL(link), new File("./images/"  + new Date().getTime() + ".jpg"), 10000, 10000);
+                    FileUtils.copyURLToFile(new URL(link), new File("./images/" + new Date().getTime() + ".jpg"), 10000, 10000);
                     i.getAndIncrement();
                 } catch (Exception e) {
                     LOG.error(e.getMessage());

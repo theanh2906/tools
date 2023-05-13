@@ -18,7 +18,11 @@ public class EventService {
     }
 
     public Event addEvent(Event event) {
-        event.setId(UUID.randomUUID().toString());
+        event.setId(UUID.randomUUID());
         return eventRepository.save(event);
+    }
+
+    public void deleteAll() {
+        eventRepository.deleteAll();
     }
 }

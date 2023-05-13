@@ -13,6 +13,6 @@ public class BarcodeService {
     public BufferedImage generateQRCode(String barcodeText) throws Exception {
         QRCodeWriter barcodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = barcodeWriter.encode(barcodeText, BarcodeFormat.QR_CODE, 800, 800);
-        return MatrixToImageWriter.toBufferedImage(bitMatrix, new MatrixToImageConfig(0x880808, MatrixToImageConfig.WHITE));
+        return MatrixToImageWriter.toBufferedImage(bitMatrix, new MatrixToImageConfig(MatrixToImageConfig.BLACK, MatrixToImageConfig.WHITE));
     }
 }

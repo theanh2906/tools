@@ -40,4 +40,8 @@ export class EventService {
   deleteEvent = (eventId: string) => {
     return this.http.delete(`${environment.apiUrl}/events/${eventId}.json`);
   };
+
+  getEventsFromFirebase = () => {
+    return this.http.get<any>(`${environment.apiUrl}/events/firebase`);
+  };
 }

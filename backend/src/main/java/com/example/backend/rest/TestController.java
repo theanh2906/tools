@@ -1,13 +1,16 @@
 package com.example.backend.rest;
 
 import com.example.backend.dtos.ResponseDto;
+import com.example.backend.models.Role;
 import com.example.backend.models.User;
 import com.example.backend.repositories.UserRepository;
 import com.example.backend.services.BarcodeService;
+import com.example.backend.services.RoleService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,6 +35,7 @@ public class TestController {
     private UserRepository repository;
     @Autowired
     private BarcodeService barcodeService;
+
     @GetMapping("/all")
     public String allAccess() {
         return "Public access";

@@ -6,7 +6,12 @@ import com.example.backend.mappers.NoteMapper;
 import com.example.backend.models.Note;
 import com.example.backend.services.NoteService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +22,15 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/notes")
 public class NoteController {
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
     @Autowired
     private NoteService noteService;
 
+    @Cacheable(value = "notes")
     @GetMapping("")
     @Operation(summary = "Find all notes")
     public List<NoteDto> findAll() {
+        LOG.error("All notes found!!");
         return noteService
                 .findAll()
                 .stream()
@@ -31,12 +39,14 @@ public class NoteController {
                 .collect(Collectors.toList());
     }
 
+    @CacheEvict(value = "notes", allEntries = true)
     @PostMapping("/new")
     @Operation(summary = "Add new note")
-    public ResponseEntity<?> addNote(@RequestBody Note note) {
-        return ResponseEntity.ok(noteService.addNote(note));
+    public Note addNote(@RequestBody Note note) {
+        return noteService.addNote(note);
     }
 
+    @CacheEvict(value = "notes", allEntries = true)
     @PutMapping("/{id}")
     @Operation(summary = "Delete note by id")
     public ResponseEntity<?> deleteNote(@PathVariable String id) {
