@@ -1,7 +1,6 @@
 package com.example.backend.rest;
 
 import com.example.backend.services.BarcodeService;
-import org.apache.kafka.common.protocol.types.Field;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

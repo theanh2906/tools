@@ -1,6 +1,7 @@
 package com.example.backend.configurations;
 
 import com.example.backend.models.Receiver;
+import net.bytebuddy.utility.nullability.MaybeNull;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -13,9 +14,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfiguration {
-    static final String topicExchangeName = "spring-boot-exchange";
+    public static final String topicExchangeName = "spring-boot-exchange";
 
-    static final String queueName = "spring-boot";
+    public static final String queueName = "spring-boot";
 
     @Bean
     Queue queue() {

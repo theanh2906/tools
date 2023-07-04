@@ -1,7 +1,11 @@
 package com.example.backend;
 
+import com.example.backend.configurations.RabbitMQConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -14,7 +18,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.example.backend.repositories")
 @EnableCaching
-public class BackendApplication extends SpringBootServletInitializer {
+public class BackendApplication extends SpringBootServletInitializer implements CommandLineRunner {
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
     private static final Logger LOGGER = LoggerFactory.getLogger(BackendApplication.class);
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
@@ -31,5 +37,10 @@ public class BackendApplication extends SpringBootServletInitializer {
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
         };
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        rabbitTemplate.convertAndSend(RabbitMQConfiguration.topicExchangeName, "rabbit.chat.send", "Hello World");
     }
 }

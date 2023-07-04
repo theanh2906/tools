@@ -9,7 +9,7 @@ public class Receiver {
     private static final Logger LOGGER = LoggerFactory.getLogger(Receiver.class);
 
     public void receiveMessage(String message) {
-        System.out.println("Received <" + message + ">");
+        System.err.println("Received <" + message + ">");
     }
 
 }
