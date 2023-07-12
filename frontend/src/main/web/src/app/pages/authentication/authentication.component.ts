@@ -54,18 +54,19 @@ export class AuthenticationComponent implements OnInit {
         this.router.navigateByUrl(this.cachesService.getPreviousUrl());
       },
       error: (error) => {
-        const errorCode = error.error.error.message;
-        switch (errorCode) {
-          case 'INVALID_PASSWORD':
-            this.showErrorMessage('This password is not correct.');
-            break;
-          case 'EMAIL_NOT_FOUND':
-            this.showErrorMessage('Email address could not be found.');
-            break;
-          case 'EMAIL_EXISTS':
-            this.showErrorMessage('This email already exists!');
-            break;
-        }
+        const errorCode = error.error.message;
+        // switch (errorCode) {
+        //   case 'INVALID_PASSWORD':
+        //     this.showErrorMessage('This password is not correct.');
+        //     break;
+        //   case 'EMAIL_NOT_FOUND':
+        //     this.showErrorMessage('Email address could not be found.');
+        //     break;
+        //   case 'EMAIL_EXISTS':
+        //     this.showErrorMessage('This email already exists!');
+        //     break;
+        // }
+        this.showErrorMessage(errorCode);
         this.isLoading = false;
       },
     });

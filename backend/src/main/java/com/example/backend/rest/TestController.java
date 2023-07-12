@@ -1,33 +1,24 @@
 package com.example.backend.rest;
 
-import com.example.backend.configurations.RabbitMQConfiguration;
 import com.example.backend.dtos.ResponseDto;
-import com.example.backend.models.Role;
 import com.example.backend.models.User;
 import com.example.backend.repositories.UserRepository;
 import com.example.backend.services.BarcodeService;
-import com.example.backend.services.RoleService;
 import com.example.backend.shared.Constant;
 import io.awspring.cloud.messaging.core.QueueMessagingTemplate;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.Base64;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -39,8 +30,6 @@ public class TestController {
     private UserRepository repository;
     @Autowired
     private BarcodeService barcodeService;
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
     @Autowired
     private QueueMessagingTemplate messagingTemplate;
 
@@ -79,11 +68,6 @@ public class TestController {
     @GetMapping("/header")
     public String getHeader(HttpServletRequest request) {
         return request.getHeader("iv-user");
-    }
-
-    @PostMapping("/send-rabbitmq-message")
-    public void sendRabbitMQMessage(@RequestBody String message) {
-        rabbitTemplate.convertAndSend(RabbitMQConfiguration.topicExchangeName, "rabbit.chat.new", "This is message " + message.hashCode());
     }
 
     @PostMapping("/send-sqs-message")
