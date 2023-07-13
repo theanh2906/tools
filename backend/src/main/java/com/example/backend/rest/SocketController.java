@@ -4,6 +4,8 @@ import com.example.backend.dtos.ChatMessage;
 import com.example.backend.dtos.CheckInDto;
 import com.example.backend.dtos.Message;
 import com.example.backend.dtos.OutputMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -22,6 +24,7 @@ import java.util.Date;
 @Controller
 @RequestMapping("/api")
 public class SocketController {
+    private static Logger LOG = LoggerFactory.getLogger(SocketController.class);
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
     @MessageMapping("/chat.send")
@@ -32,6 +35,7 @@ public class SocketController {
 
     @MessageMapping("/private")
     public void sendSpecific(@Payload Message message, Principal user, @Header("simpSessionId") String sessionId) {
+        LOG.info(sessionId);
         OutputMessage out = new OutputMessage(message.getFrom(), message.getText(), new SimpleDateFormat("HH:mm").format(new Date()));
         SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);
         headerAccessor.setSessionId(message.getTo());
@@ -47,6 +51,7 @@ public class SocketController {
         if (headerAccessor != null && headerAccessor.getSessionAttributes() != null) {
             headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
         }
+        chatMessage.setTime(new Date().getTime());
         return chatMessage;
     }
 }

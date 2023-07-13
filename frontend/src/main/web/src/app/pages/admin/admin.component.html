@@ -3,11 +3,11 @@
   <table>
     <tr>
       <th>Id</th>
-      <th>Id</th>
+      <th>Last login</th>
     </tr>
-    <tr *ngFor="let candidate of candidates">
-      <td>{{ candidate }}</td>
-      <td>{{ candidate }}</td>
+    <tr *ngFor="let candidate of socket.candidates">
+      <td>{{ candidate.name }}</td>
+      <td>{{ candidate.lastLogin }}</td>
     </tr>
   </table>
 </div>

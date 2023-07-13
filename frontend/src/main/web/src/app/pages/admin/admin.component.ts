@@ -16,7 +16,7 @@ export class AdminComponent implements OnInit {
   stompClient: any;
   currentUser = '';
   to = '';
-  constructor(private socket: SocketService) {}
+  constructor(public socket: SocketService) {}
 
   ngOnInit(): void {
     this.connectCheckIn();
@@ -48,7 +48,10 @@ export class AdminComponent implements OnInit {
               JSON.parse(res.body).sender !=
               this.socket.stompClient.ws._transport.url.split('/')[6]
             ) {
-              this.candidates.push(JSON.parse(res.body).sender);
+              this.socket.checkIn({
+                name: JSON.parse(res.body).sender,
+                lastLogin: new Date(JSON.parse(res.body).time).toLocaleString('vi')
+              });
             }
             break;
           case MessageType.LEAVE:
@@ -56,8 +59,8 @@ export class AdminComponent implements OnInit {
               JSON.parse(res.body).sender !=
               this.socket.stompClient.ws._transport.url.split('/')[6]
             ) {
-              this.candidates = this.candidates.filter(
-                (each) => each != JSON.parse(res.body).sender
+              this.socket._candidates = this.socket._candidates.filter(
+                (each) => each.name != JSON.parse(res.body).sender
               );
             }
         }
@@ -76,4 +79,6 @@ export class AdminComponent implements OnInit {
       })
     );
   }
+
+  protected readonly Date = Date;
 }

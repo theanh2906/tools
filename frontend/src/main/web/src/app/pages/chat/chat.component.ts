@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Stomp } from '@stomp/stompjs';
-import * as SockJS from 'sockjs-client';
-import { FrameImpl } from '@stomp/stompjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from '../../../environments/environment';
-import { AuthService, FacebookLoginResponse } from '../../auth/auth.service';
-import * as uuid from 'uuid';
-import { SocketService } from '../../services/socket.service';
+import {Component, OnInit} from '@angular/core';
+import {FrameImpl} from '@stomp/stompjs';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {AuthService, FacebookLoginResponse} from '../../auth/auth.service';
+import {SocketService} from '../../services/socket.service';
+import {ActivatedRoute} from "@angular/router";
+
 export interface Message {
   from?: string;
   time?: string;
@@ -26,11 +24,18 @@ export class ChatComponent implements OnInit {
   text = '';
   chatHistory: Message[] = [];
   currentUser!: FacebookLoginResponse;
+
   constructor(
     private snackbar: MatSnackBar,
     private authService: AuthService,
-    private socket: SocketService
-  ) {}
+    private socket: SocketService,
+    private route: ActivatedRoute
+  ) {
+  }
+
+  get receiverId() {
+    return this.route.snapshot.paramMap.get("id") ? this.route.snapshot.paramMap.get("id") : '';
+  }
 
   get isFacebookLogged() {
     return this.authService.isFacebookLogged;
@@ -49,7 +54,8 @@ export class ChatComponent implements OnInit {
       this.socket.stompClient.subscribe(
         '/private/user' + '-user' + this.name,
         (messageOut: FrameImpl) => {
-          alert(JSON.parse(messageOut.body).text);
+          let content = JSON.parse(messageOut.body).text
+          this.chatHistory.push(content);
         }
       );
     });
@@ -61,8 +67,8 @@ export class ChatComponent implements OnInit {
       {},
       JSON.stringify({
         from: this.name,
-        to: this.name,
-        text: `Hello ${this.name}`,
+        to: this.receiverId,
+        text: `Hello ${this.receiverId}`,
       })
     );
   }

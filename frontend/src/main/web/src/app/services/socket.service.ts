@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
-import { Subject } from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 import { environment } from '../../environments/environment';
 import { MessageType } from '../shared/models';
 
@@ -15,12 +15,26 @@ export interface ChatMessage {
   content?: string;
 }
 
+export interface Candidate {
+  name: string;
+  lastLogin: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class SocketService {
+  public _candidates: Candidate[] = [];
   private _socket!: WebSocketSubject<any>;
   private _stompClient: any;
+
+  checkIn(candidateId: Candidate) {
+    this.candidates.push(candidateId);
+  }
+
+  get candidates() {
+    return this._candidates
+  }
 
   get stompClient() {
     return this._stompClient;

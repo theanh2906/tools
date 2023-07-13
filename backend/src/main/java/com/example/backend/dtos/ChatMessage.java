@@ -4,6 +4,7 @@ public class ChatMessage {
     private MessageType type;
     private String content;
     private String sender;
+    private Long time;
 
     public MessageType getType() {
         return type;
@@ -19,6 +20,14 @@ public class ChatMessage {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Long getTime() {
+        return time;
+    }
+
+    public void setTime(Long time) {
+        this.time = time;
     }
 
     public String getSender() {

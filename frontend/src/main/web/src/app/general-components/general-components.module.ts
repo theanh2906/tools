@@ -58,6 +58,10 @@ const appRoute: Routes = [
     component: ChatComponent,
   },
   {
+    path: 'chat/:id',
+    component: ChatComponent,
+  },
+  {
     path: 'admin',
     component: AdminComponent,
   },
