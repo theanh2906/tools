@@ -52,6 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.socket.stompClient.connect({}, (res: any) => {
       console.log(this.socket.stompClient.ws._transport.url.split('/')[6]);
       this.username = this.socket.stompClient.ws._transport.url.split('/')[6];
+      this.socket.setSessionId(this.username);
       this.checkIn();
     });
   }

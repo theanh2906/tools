@@ -117,6 +117,11 @@ public class StorageService {
 
     @Transactional
     public Boolean deleteAllImages() {
-        return imagesRepository.deleteAllImages().size() > 0;
+        try {
+            imagesRepository.deleteAll();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }

@@ -27,6 +27,15 @@ export class SocketService {
   public _candidates: Candidate[] = [];
   private _socket!: WebSocketSubject<any>;
   private _stompClient: any;
+  private _sessionId = '';
+
+  setSessionId(sessionId: string) {
+    this._sessionId = sessionId;
+  }
+
+  get sessionId() {
+    return this._sessionId;
+  }
 
   checkIn(candidateId: Candidate) {
     this.candidates.push(candidateId);

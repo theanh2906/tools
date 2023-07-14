@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ImagesRepository extends JpaRepository<Images, String> {
-    @Modifying
     @Query(value = "DELETE FROM images", nativeQuery = true)
-    List<String> deleteAllImages();
+    Boolean deleteAllImages();
 }

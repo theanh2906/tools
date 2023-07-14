@@ -79,6 +79,4 @@ export class AdminComponent implements OnInit {
       })
     );
   }
-
-  protected readonly Date = Date;
 }
