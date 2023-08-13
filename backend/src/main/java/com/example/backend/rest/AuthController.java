@@ -11,7 +11,7 @@ import com.example.backend.models.User;
 import com.example.backend.repositories.RoleRepository;
 import com.example.backend.repositories.UserRepository;
 import com.example.backend.services.UserDetailsImpl;
-import com.example.backend.utils.HelpUtils;
+import com.example.backend.utils.Utils;
 import com.example.backend.utils.JwtUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
@@ -70,7 +70,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody String data) {
         try {
-            LoginRequest loginRequest = HelpUtils.getObjectFromEncodedStr(data, LoginRequest.class);
+            LoginRequest loginRequest = Utils.getObjectFromEncodedStr(data, LoginRequest.class);
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = jwtUtils.generateJwtSecret(authentication);

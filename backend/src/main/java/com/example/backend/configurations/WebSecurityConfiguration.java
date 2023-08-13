@@ -1,6 +1,5 @@
 package com.example.backend.configurations;
 
-import com.example.backend.models.CustomOAuth2User;
 import com.example.backend.services.AuthTokenFilter;
 import com.example.backend.services.CustomOAuth2UserService;
 import com.example.backend.services.UserDetailsServiceImpl;
@@ -14,16 +13,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -61,7 +53,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-        @Override
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors()
                 .and().csrf().disable()

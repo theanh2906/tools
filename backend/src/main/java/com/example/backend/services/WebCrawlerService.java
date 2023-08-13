@@ -1,6 +1,6 @@
 package com.example.backend.services;
 
-import com.example.backend.utils.HelpUtils;
+import com.example.backend.utils.Utils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
@@ -11,12 +11,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -75,7 +87,7 @@ public class WebCrawlerService {
         try {
             AtomicInteger i = new AtomicInteger();
             if (!Files.exists(Path.of("./images"))) {
-                HelpUtils.createDirectory("./images");
+                Utils.createDirectory("./images");
             }
             findImageLinks(params.get("url"), params.get("selector"), params.get("imageAttribute")).forEach(link -> {
                 try {
@@ -104,7 +116,7 @@ public class WebCrawlerService {
         try {
             AtomicInteger i = new AtomicInteger();
             if (!Files.exists(Path.of("./images"))) {
-                HelpUtils.createDirectory("./images");
+                Utils.createDirectory("./images");
             }
             findImageLinks(params.get("url"), params.get("selector"), params.get("imageAttribute")).forEach(link -> {
                 try {

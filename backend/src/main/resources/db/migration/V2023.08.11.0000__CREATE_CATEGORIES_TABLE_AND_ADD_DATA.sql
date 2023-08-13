@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS CATEGORIES
+(
+    ID                 VARCHAR(36) UNIQUE  NOT NULL,
+    NAME               TEXT,
+    COLOR              VARCHAR(20),
+    CREATED_DATE       BIGINT,
+    LAST_MODIFIED_DATE BIGINT
+);

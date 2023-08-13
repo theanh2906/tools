@@ -8,6 +8,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
+
 @Service
 public class BarcodeService {
     public BufferedImage generateQRCode(String barcodeText) throws Exception {

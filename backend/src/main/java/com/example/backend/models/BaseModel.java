@@ -6,6 +6,6 @@ import java.io.Serializable;
 
 @Data
 public abstract class BaseModel implements Serializable {
-    private String createdDate;
-    private String lastModifiedDate;
+    private Long createdDate;
+    private Long lastModifiedDate;
 }

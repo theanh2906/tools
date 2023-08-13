@@ -1,7 +1,6 @@
 package com.example.backend.rest;
 
 import com.example.backend.dtos.ChatMessage;
-import com.example.backend.dtos.CheckInDto;
 import com.example.backend.dtos.Message;
 import com.example.backend.dtos.OutputMessage;
 import org.slf4j.Logger;
@@ -27,6 +26,7 @@ public class SocketController {
     private static Logger LOG = LoggerFactory.getLogger(SocketController.class);
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
+
     @MessageMapping("/chat.send")
     @SendTo("/topic/public")
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {

@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "NOTES")
 @Data
-public class Note extends BaseModel{
+public class Note extends BaseModel {
     @Id
     private String id;
     @Column
@@ -18,7 +18,7 @@ public class Note extends BaseModel{
     @Column
     private String title;
     @Column
-    private String createdDate;
+    private Long createdDate;
     @Column
-    private String lastModifiedDate;
+    private Long lastModifiedDate;
 }

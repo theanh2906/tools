@@ -17,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableCaching
 public class BackendApplication extends SpringBootServletInitializer implements CommandLineRunner {
     private static final Logger LOGGER = LoggerFactory.getLogger(BackendApplication.class);
+
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
     }

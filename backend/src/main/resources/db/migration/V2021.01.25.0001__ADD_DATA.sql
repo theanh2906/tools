@@ -42,16 +42,3 @@ INSERT INTO EVENTS
 VALUES ('89e495ed-6101-4e38-b482-6f6f791e3bc6', TRUE, '2021-12-05', '2021-12-06', 'Đèn đỏ');
 INSERT INTO EVENTS
 VALUES ('fa67d657-08a2-49f9-ba62-f10ebc143984', TRUE, '2021-12-30', '2021-12-31', 'Đèn đỏ');
-
-INSERT INTO NOTES
-VALUES ('e365facc-a65b-4ec9-afd2-d30208d2b5cf',
-        '<p><a href=\"https://www.facebook.com/108853244232477/posts/387981942986271/?d=n\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.facebook.com/108853244232477/posts/387981942986271/?d=n</a></p><p><a href=\"https://www.facebook.com/188408404669710/posts/1944979082345958/?d=n\" rel=\"noopener noreferrer\" target=\"_blank\">https://www.facebook.com/188408404669710/posts/1944979082345958/?d=n</a></p><p></p>',
-        '23/10/2021 1:33:50 AM', '23/10/2021 1:33:50 AM', 'Bánh kem');
-INSERT INTO NOTES
-VALUES ('37a7c259-096b-4670-a7a2-6a8ee8f2dcb5',
-        '<p><a href=\"https://youtu.be/ejQGa2RNBQY\" rel=\"noopener noreferrer\" target=\"_blank\">https://youtu.be/ejQGa2RNBQY</a></p><p><a href=\"https://megaxh.com/videos/brunette-girlfriend-shaves-her-pits-and-her-pussy-xhG80UY\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"background-color: rgb(255, 255, 255);\">https://megaxh.com/videos/brunette-girlfriend-shaves-her-pits-and-her-pussy-xhG80UY</a></p><p><a href=\"https://www5.javmost.com/star/Rika%20Aimi/\" rel=\"noopener noreferrer\" target=\"_blank\">https://www5.javmost.com/star/Rika%20Aimi/</a></p><p><a href=\"https://viet69z.com/cap-vu-sieu-pham.html\" rel=\"noopener noreferrer\" target=\"_blank\">https://viet69z.com/cap-vu-sieu-pham.html</a></p>',
-        '31/10/2021 2:20:47 AM', '31/10/2021 2:20:47 AM', 'Link');
-INSERT INTO NOTES
-VALUES ('c4b169c4-da22-465f-a502-f15b7c2e1756',
-        '<p><a href=\"https://m.facebook.com/MiwakuPremium/posts/1284719431976546?d=m\" rel=\"noopener noreferrer\" target=\"_blank\">https://m.facebook.com/MiwakuPremium/posts/1284719431976546?d=m</a></p>',
-        '2/12/2021 10:41:01 PM', '2/12/2021 10:41:01 PM', 'Địa điểm đẹp');

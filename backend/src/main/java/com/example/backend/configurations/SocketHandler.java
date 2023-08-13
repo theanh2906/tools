@@ -2,7 +2,6 @@ package com.example.backend.configurations;
 
 import org.springframework.lang.NonNull;
 import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 

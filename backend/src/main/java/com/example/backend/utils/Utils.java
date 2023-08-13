@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.util.Base64;
 import java.util.Map;
 
-public class HelpUtils {
+public class Utils {
 
     public static String decodeBase64Str(String base64) {
         return new String(Base64.getDecoder().decode(base64));

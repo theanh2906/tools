@@ -8,7 +8,7 @@ export interface Note {
   id: string;
   title: string;
   content: string;
-  createdDate: string;
+  createdDate: number;
   lastModifiedDate?: string;
   isEdit?: boolean;
   html?: SafeHtml;
@@ -37,7 +37,7 @@ export class NotesService {
     return this.http.get<Note[]>(`${environment.apiUrl}/notes`);
   };
   deleteNote = (id: string) => {
-    return this.http.put(`${environment.apiUrl}/notes/${id}`, {});
+    return this.http.delete(`${environment.apiUrl}/notes/${id}`, {});
   };
   editNote = (note: Note) => {
     return this.http.put(`${environment.apiUrl}/notes/${note.id}.json`, {

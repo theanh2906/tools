@@ -3,14 +3,16 @@
   <div *ngFor="let note of notesList">
     <div *ngIf="!note.isEdit" class="notes-display__wrapper">
       <div class="delete__area">
-        <div (click)="onSwitchMode(note)" class="edit" role="button">
-          {{ note.isEdit ? '' : 'Edit' }}
+        <div (click)="onSwitchMode(note)" class="edit" role="button" matTooltip="Edit note">
+          <mat-icon *ngIf="!note.isEdit">edit</mat-icon>
         </div>
-        <div (click)="deleteNote(note.id)" class="delete" role="button">X</div>
+        <div (click)="deleteNote(note.id)" class="delete" role="button" matTooltip="Delete note">
+          <mat-icon>delete</mat-icon>
+        </div>
       </div>
       <h2 class="note-title">{{ note.title }}</h2>
       <div [innerHTML]="note.content"></div>
-      <em class="note-date">Created at {{ note.createdDate }}</em>
+      <em class="note-date">Created at {{ note.createdDate | date: 'dd/MM/yyyy, hh:mm:ss a' }}</em>
     </div>
     <app-editor
       (editNoteEvent)="onEdit($event)"

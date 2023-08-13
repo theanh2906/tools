@@ -9,11 +9,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Comparator;
 import java.util.List;
@@ -26,7 +29,7 @@ public class NoteController {
     @Autowired
     private NoteService noteService;
 
-    @Cacheable(value = "notes")
+    //    @Cacheable(value = "notes")
     @GetMapping("")
     @Operation(summary = "Find all notes")
     public List<NoteDto> findAll() {
@@ -39,19 +42,25 @@ public class NoteController {
                 .collect(Collectors.toList());
     }
 
-    @CacheEvict(value = "notes", allEntries = true)
+    //    @CacheEvict(value = "notes", allEntries = true)
     @PostMapping("/new")
     @Operation(summary = "Add new note")
     public Note addNote(@RequestBody Note note) {
         return noteService.addNote(note);
     }
 
-    @CacheEvict(value = "notes", allEntries = true)
-    @PutMapping("/{id}")
+    //    @CacheEvict(value = "notes", allEntries = true)
+    @DeleteMapping("/{id}")
     @Operation(summary = "Delete note by id")
     public ResponseEntity<?> deleteNote(@PathVariable String id) {
         return noteService.deleteNote(id) == 1 ?
                 ResponseEntity.ok(new ResponseDto<>(String.format("Successfully delete note with id %s", id))) :
                 ResponseEntity.badRequest().body(new ResponseDto<>(String.format("Failed to delete note with id %s", id)));
     }
+
+//    @PutMapping("")
+//    @Operation(summary = "Update note by id")
+//    public ResponseEntity<?> updateNote(@RequestBody final NoteDto note) {
+//
+//    }
 }

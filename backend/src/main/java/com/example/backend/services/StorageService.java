@@ -4,7 +4,7 @@ import com.example.backend.dtos.ImageDto;
 import com.example.backend.mappers.ImageMapper;
 import com.example.backend.models.Images;
 import com.example.backend.repositories.ImagesRepository;
-import com.example.backend.utils.HelpUtils;
+import com.example.backend.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,7 +31,7 @@ public class StorageService {
     @Autowired
     private ImagesRepository imagesRepository;
 
-//    @PostConstruct
+    //    @PostConstruct
     public void init() {
         try {
             if (Files.notExists(root)) {
@@ -100,7 +99,7 @@ public class StorageService {
     public String getImageBase64(int index) {
         try {
             Images images = imagesRepository.findAll().get(index);
-            return HelpUtils.toBase64(images.getData());
+            return Utils.toBase64(images.getData());
         } catch (Exception e) {
             LOGGER.error("Could not get file {}", e.getLocalizedMessage());
             return null;

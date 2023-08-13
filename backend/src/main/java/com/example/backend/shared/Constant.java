@@ -4,11 +4,13 @@ import com.amazonaws.regions.Regions;
 import com.example.backend.dtos.fshare.FshareLoginRequest;
 
 public class Constant {
-    public static final String[] CROSS_ORIGIN_ALLOW_LIST = new String[] {"http://localhost:8080", "http://localhost:4200"};
+    public static final String[] CROSS_ORIGIN_ALLOW_LIST = new String[]{"http://localhost:8080", "http://localhost:4200"};
+
     public static class Firebase {
         public static final String API_URL = "https://useful-tools-api-default-rtdb.firebaseio.com";
         public static final String EVENTS_API = "https://useful-tools-api-default-rtdb.firebaseio.com/events.json";
     }
+
     public static class AWSConfig {
         public static final String SQS_ENDPOINT = "http://localhost:9324";
         public static final String AWS_CREDENTIAL_ACCESS_KEY = "AKIAR6KBL4DCX7ECZ62T";
@@ -23,10 +25,10 @@ public class Constant {
     }
 
     public static class Fshare {
-        public static final String EMAIL = "theanh2906@gmail.com";
+        public static final String EMAIL = "theanh2906@outlook.com";
         public static final String APP_KEY = "dMnqMMZMUnN5YpvKENaEhdQQ5jxDqddt";
-        public static final String USER_AGENT = "UsefulTools2022-710L5E";
-        public static final String PASSWORD = "Jackytang2906*";
+        public static final String USER_AGENT = "DevTools-U9DRRB";
+        public static final String PASSWORD = "BenNa1402*";
         public static final String FSHARE_API_URL = "https://api.fshare.vn/api";
         public static final String FILE_FOLDER_INFO_URL = FSHARE_API_URL + "/fileops/list";
         public static final String LOGIN_URL = FSHARE_API_URL + "/user/login";
@@ -35,6 +37,7 @@ public class Constant {
         public static final String USER_INFO_URL = FSHARE_API_URL + "/user/get";
         public static final String UPLOAD_URL = FSHARE_API_URL + "/session/upload";
         public static final FshareLoginRequest LOGIN_REQUEST = new FshareLoginRequest(EMAIL, PASSWORD, APP_KEY);
+
         public enum FolderType {
             FOLDER("0"),
             FILE("1");
@@ -54,7 +57,7 @@ public class Constant {
     public static class HeaderAttribute {
         public static final String AUTHORIZATION = "Authorization";
         public static final String CONTENT_TYPE = "Content-Type";
-        public static final String ACCEPT = "Accept" ;
+        public static final String ACCEPT = "Accept";
         public static final String USER_AGENT = "User-Agent";
         public static final String ACCEPT_LANGUAGE = "Accept-Language";
         public static final String ACCEPT_ENCODING = "Accept-Encoding";

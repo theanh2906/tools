@@ -33,10 +33,7 @@ export class EditorComponent implements OnInit {
       id: '',
       title,
       content,
-      createdDate:
-        new Date().toLocaleDateString('vi') +
-        ' ' +
-        new Date().toLocaleTimeString(),
+      createdDate: new Date().getTime()
     };
     this.notesService.addNote(note).subscribe((res) => {
       this.contentInputText = '';

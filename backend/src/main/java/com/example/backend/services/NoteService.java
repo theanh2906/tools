@@ -21,12 +21,18 @@ public class NoteService {
 
     public Note addNote(Note note) {
         note.setId(UUID.randomUUID().toString());
-        note.setCreatedDate(new Date().toString());
+        note.setCreatedDate(new Date().getTime());
         return noteRepository.save(note);
     }
 
     @Transactional
     public Integer deleteNote(String id) {
         return noteRepository.deleteNotes(id);
+    }
+
+    @Transactional
+    public Note updateNote(Note note) {
+        note.setLastModifiedDate(new Date().getTime());
+        return noteRepository.save(note);
     }
 }

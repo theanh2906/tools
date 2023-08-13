@@ -3,13 +3,13 @@ package com.example.backend.services;
 import com.example.backend.dtos.fshare.DownloadLinkResponse;
 import com.example.backend.dtos.fshare.FileFolderInfo;
 import com.example.backend.dtos.fshare.FshareLoginRequest;
-import com.example.backend.dtos.fshare.LoginResponse;
 import com.example.backend.dtos.fshare.FshareLogoutResponse;
+import com.example.backend.dtos.fshare.LoginResponse;
 import com.example.backend.dtos.fshare.UploadRequest;
 import com.example.backend.dtos.fshare.UploadResponse;
 import com.example.backend.dtos.fshare.UserInfoResponse;
 import com.example.backend.shared.Constant;
-import com.example.backend.utils.HelpUtils;
+import com.example.backend.utils.Utils;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -73,7 +73,7 @@ public class FshareService {
                                 .body(Mono.just(file.getBytes()), byte[].class)
                                 .retrieve()
                                 .bodyToMono(String.class)
-                                .mapNotNull(res -> HelpUtils.map(UploadResponse.class, res));
+                                .mapNotNull(res -> Utils.map(UploadResponse.class, res));
                     } catch (IOException e) {
                         e.printStackTrace();
                         return Mono.error(e);
@@ -97,7 +97,7 @@ public class FshareService {
         params.put("dirOnly", 0);
         return webClient
                 .get()
-                .uri(Objects.requireNonNull(HelpUtils.buildUriWithParams(Constant.Fshare.FILE_FOLDER_INFO_URL, params)))
+                .uri(Objects.requireNonNull(Utils.buildUriWithParams(Constant.Fshare.FILE_FOLDER_INFO_URL, params)))
                 .header(Constant.HeaderAttribute.USER_AGENT, Constant.Fshare.USER_AGENT)
                 .cookie(Constant.HeaderAttribute.SESSION_ID, this.sessionId)
                 .retrieve()
@@ -124,7 +124,7 @@ public class FshareService {
             params.put("dirOnly", 0);
             return webClient
                     .get()
-                    .uri(Objects.requireNonNull(HelpUtils.buildUriWithParams(Constant.Fshare.FILE_FOLDER_INFO_URL, params)))
+                    .uri(Objects.requireNonNull(Utils.buildUriWithParams(Constant.Fshare.FILE_FOLDER_INFO_URL, params)))
                     .header(Constant.HeaderAttribute.USER_AGENT, Constant.Fshare.USER_AGENT)
                     .cookie(Constant.HeaderAttribute.SESSION_ID, this.sessionId)
                     .retrieve()

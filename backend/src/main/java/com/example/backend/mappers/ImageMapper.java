@@ -2,7 +2,7 @@ package com.example.backend.mappers;
 
 import com.example.backend.dtos.ImageDto;
 import com.example.backend.models.Images;
-import com.example.backend.utils.HelpUtils;
+import com.example.backend.utils.Utils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class ImageMapper {
         com.example.backend.dtos.ImageDto dto = new com.example.backend.dtos.ImageDto();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
-        dto.setUrl(HelpUtils.createBase64Image(entity.getData()));
+        dto.setUrl(Utils.createBase64Image(entity.getData()));
         return dto;
     }
 
