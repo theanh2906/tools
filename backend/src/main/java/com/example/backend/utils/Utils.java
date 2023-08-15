@@ -11,15 +11,11 @@ import java.util.Map;
 
 public class Utils {
 
-    public static String decodeBase64Str(String base64) {
-        return new String(Base64.getDecoder().decode(base64));
-    }
-
     public static String encodeBase64Str(String json) {
         return Base64.getEncoder().encodeToString(json.getBytes());
     }
 
-    public static <T> T getObjectFromEncodedStr(String encodedStr, Class<T> clazz) {
+    public static <T> T map(String encodedStr, Class<T> clazz) {
         ObjectMapper mapper = new ObjectMapper();
         String decodedStr = decodeBase64Str(encodedStr);
         try {
@@ -30,6 +26,10 @@ public class Utils {
         return null;
     }
 
+    public static String decodeBase64Str(String base64) {
+        return new String(Base64.getDecoder().decode(base64));
+    }
+
     public static String stringifyJson(Map json) {
         return new JSONObject(json).toString();
     }
@@ -38,12 +38,12 @@ public class Utils {
         return new JSONObject(object).toString();
     }
 
-    public static String toBase64(byte[] bytes) {
-        return Base64.getEncoder().encodeToString(bytes);
-    }
-
     public static String createBase64Image(byte[] bytes) {
         return "data:image/jpeg;base64," + toBase64(bytes);
+    }
+
+    public static String toBase64(byte[] bytes) {
+        return Base64.getEncoder().encodeToString(bytes);
     }
 
     public static void createDirectory(String path) {
@@ -71,10 +71,7 @@ public class Utils {
         StringBuilder builder = new StringBuilder(uri);
         if (params != null && !params.isEmpty()) {
             builder.append("?");
-            params.forEach((key, value) -> builder.append("&")
-                    .append(key)
-                    .append("=")
-                    .append(value));
+            params.forEach((key, value) -> builder.append("&").append(key).append("=").append(value));
             return builder.toString();
         }
         return null;

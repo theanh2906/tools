@@ -23,9 +23,17 @@ import java.util.Date;
 @Controller
 @RequestMapping("/api")
 public class SocketController {
-    private static Logger LOG = LoggerFactory.getLogger(SocketController.class);
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+    @MessageMapping("/chat.check-in")
+    @SendTo("/topic/public")
+    public ChatMessage addUser(@Payload ChatMessage chatMessage,
+                               SimpMessageHeaderAccessor headerAccessor) {
+        // Add username in web socket session
+        if (headerAccessor != null && headerAccessor.getSessionAttributes() != null) {
+            headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+        }
+        chatMessage.setTime(new Date().getTime());
+        return chatMessage;
+    }
 
     @MessageMapping("/chat.send")
     @SendTo("/topic/public")
@@ -42,16 +50,7 @@ public class SocketController {
         headerAccessor.setLeaveMutable(true);
         simpMessagingTemplate.convertAndSendToUser(message.getTo(), "/private/user", out, headerAccessor.getMessageHeaders());
     }
-
-    @MessageMapping("/chat.check-in")
-    @SendTo("/topic/public")
-    public ChatMessage addUser(@Payload ChatMessage chatMessage,
-                               SimpMessageHeaderAccessor headerAccessor) {
-        // Add username in web socket session
-        if (headerAccessor != null && headerAccessor.getSessionAttributes() != null) {
-            headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-        }
-        chatMessage.setTime(new Date().getTime());
-        return chatMessage;
-    }
+    private static Logger LOG = LoggerFactory.getLogger(SocketController.class);
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 }

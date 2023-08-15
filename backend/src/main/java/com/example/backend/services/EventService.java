@@ -14,8 +14,8 @@ public class EventService {
     @Autowired
     private EventRepository eventRepository;
 
-    public List<Event> findAll() {
-        return eventRepository.findAll();
+    public List<Event> findAllByUser(String userId) {
+        return eventRepository.findAllByUser(userId);
     }
 
     public Event addEvent(Event event) {

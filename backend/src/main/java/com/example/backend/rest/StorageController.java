@@ -21,26 +21,24 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/storage")
 public class StorageController {
-    @Autowired
-    private StorageService storageService;
-
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile[] file) {
+    @DeleteMapping("/images")
+    public ResponseEntity<?> deleteAllImages() {
         try {
-            Arrays.stream(file).forEach(storageService::save);
-            return new ResponseEntity<>("Successfully upload ", HttpStatus.ACCEPTED);
+            return ResponseEntity.ok().body(storageService.deleteAllImages());
         } catch (Exception e) {
-            return new ResponseEntity<>(String.format("Failed to upload. Error: %s", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @PostMapping("/upload-images")
-    public ResponseEntity<?> uploadImage(@RequestParam("file") List<MultipartFile> file) {
+    @DeleteMapping("/images/{id}")
+    public ResponseEntity<?> deleteImage(@PathVariable String id) {
         try {
-            ;
-            return ResponseEntity.ok().body(storageService.uploadImages(file));
+            storageService.deleteImage(id);
+            return ResponseEntity.ok("Deleted");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(String.format("Failed to upload. Error: %s", e.getMessage()));
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
@@ -73,24 +71,25 @@ public class StorageController {
         }
     }
 
-    @DeleteMapping("/images/{id}")
-    public ResponseEntity<?> deleteImage(@PathVariable String id) {
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile[] file) {
         try {
-            storageService.deleteImage(id);
-            return ResponseEntity.ok("Deleted");
+            Arrays.stream(file).forEach(storageService::save);
+            return new ResponseEntity<>("Successfully upload ", HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return new ResponseEntity<>(String.format("Failed to upload. Error: %s", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @DeleteMapping("/images")
-    public ResponseEntity<?> deleteAllImages() {
+    @PostMapping("/upload-images")
+    public ResponseEntity<?> uploadImage(@RequestParam("file") List<MultipartFile> file) {
         try {
-            return ResponseEntity.ok().body(storageService.deleteAllImages());
+            ;
+            return ResponseEntity.ok().body(storageService.uploadImages(file));
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(String.format("Failed to upload. Error: %s", e.getMessage()));
         }
     }
+    @Autowired
+    private StorageService storageService;
 }

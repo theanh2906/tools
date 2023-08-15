@@ -25,23 +25,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/notes")
 public class NoteController {
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private NoteService noteService;
-
-    //    @Cacheable(value = "notes")
-    @GetMapping("")
-    @Operation(summary = "Find all notes")
-    public List<NoteDto> findAll() {
-        LOG.error("All notes found!!");
-        return noteService
-                .findAll()
-                .stream()
-                .map(NoteMapper::toDto)
-                .sorted(Comparator.comparing(NoteDto::getCreatedDate))
-                .collect(Collectors.toList());
-    }
-
     //    @CacheEvict(value = "notes", allEntries = true)
     @PostMapping("/new")
     @Operation(summary = "Add new note")
@@ -57,6 +40,22 @@ public class NoteController {
                 ResponseEntity.ok(new ResponseDto<>(String.format("Successfully delete note with id %s", id))) :
                 ResponseEntity.badRequest().body(new ResponseDto<>(String.format("Failed to delete note with id %s", id)));
     }
+
+    //    @Cacheable(value = "notes")
+    @GetMapping("")
+    @Operation(summary = "Find all notes")
+    public List<NoteDto> findAll() {
+        LOG.error("All notes found!!");
+        return noteService
+                .findAll()
+                .stream()
+                .map(NoteMapper::toDto)
+                .sorted(Comparator.comparing(NoteDto::getCreatedDate))
+                .collect(Collectors.toList());
+    }
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private NoteService noteService;
 
 //    @PutMapping("")
 //    @Operation(summary = "Update note by id")

@@ -25,39 +25,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private UserRepository repository;
-    @Autowired
-    private BarcodeService barcodeService;
-    @Autowired
-    private QueueMessagingTemplate messagingTemplate;
-
-    @GetMapping("/all")
-    public String allAccess() {
-        return "Public access";
-    }
-
-    @GetMapping("/user")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<?> userAccess() {
-        try {
-            return ResponseEntity.ok(new ResponseDto<>(true, "Approved"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ResponseDto<>(false, e.getLocalizedMessage()));
-        }
-    }
-
-    @GetMapping("/mod")
-    @PreAuthorize("hasRole('MODERATOR')")
-    public String moderatorAccess() {
-        return "Moderator Board.";
-    }
-
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess() {
         return "Admin Board.";
+    }
+
+    @GetMapping("/all")
+    public String allAccess() {
+        return "Public access";
     }
 
     @GetMapping("/users")
@@ -70,8 +46,31 @@ public class TestController {
         return request.getHeader("iv-user");
     }
 
+    @GetMapping("/mod")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public String moderatorAccess() {
+        return "Moderator Board.";
+    }
+
     @PostMapping("/send-sqs-message")
     public void sendSQSMessage(@RequestBody String message) {
         messagingTemplate.convertAndSend(Constant.AWSConfig.AWS_SQS_QUEUE_NAME, message);
     }
+
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<?> userAccess() {
+        try {
+            return ResponseEntity.ok(new ResponseDto<>(true, "Approved"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ResponseDto<>(false, e.getLocalizedMessage()));
+        }
+    }
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private UserRepository repository;
+    @Autowired
+    private BarcodeService barcodeService;
+    @Autowired
+    private QueueMessagingTemplate messagingTemplate;
 }

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
@@ -31,7 +32,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @NotBlank(message = "Username is required!")
     @Size(max = 20)
@@ -57,4 +58,10 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Event> events = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<Note> notes = new HashSet<>();
 }

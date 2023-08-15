@@ -19,15 +19,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/roles")
 public class RoleController {
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
-    @Autowired
-    private RoleService roleService;
-
-    @Cacheable(value = "roles", key = "#roleId")
-    @GetMapping("/{roleId}")
-    public Role findRoleById(@PathVariable Long roleId) {
-        LOG.error("Getting role with ID {}.", roleId);
-        return roleService.findById(roleId);
+    @CachePut(value = "roles", key = "#role.id")
+    @PostMapping("")
+    public Role addRole(@RequestBody Role role) {
+        return roleService.addNew(role);
     }
 
     @Cacheable(value = "roles")
@@ -37,9 +32,13 @@ public class RoleController {
         return roleService.findAll();
     }
 
-    @CachePut(value = "roles", key = "#role.id")
-    @PostMapping("")
-    public Role addRole(@RequestBody Role role) {
-        return roleService.addNew(role);
+    @Cacheable(value = "roles", key = "#roleId")
+    @GetMapping("/{roleId}")
+    public Role findRoleById(@PathVariable Long roleId) {
+        LOG.error("Getting role with ID {}.", roleId);
+        return roleService.findById(roleId);
     }
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private RoleService roleService;
 }
