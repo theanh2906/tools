@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>demo</artifactId>
         <groupId>org.example</groupId>
-        <version>${global.version}</version>
+        <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
@@ -46,15 +46,15 @@
                             <arguments>install --verbose</arguments>
                         </configuration>
                     </execution>
-<!--                    <execution>-->
-<!--                        <id>npm run build</id>-->
-<!--                        <goals>-->
-<!--                            <goal>npm</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <arguments>run build &#45;&#45;verbose</arguments>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
+                    <!--                    <execution>-->
+                    <!--                        <id>npm run build</id>-->
+                    <!--                        <goals>-->
+                    <!--                            <goal>npm</goal>-->
+                    <!--                        </goals>-->
+                    <!--                        <configuration>-->
+                    <!--                            <arguments>run build &#45;&#45;verbose</arguments>-->
+                    <!--                        </configuration>-->
+                    <!--                    </execution>-->
                     <execution>
                         <id>${profile.active}</id>
                         <goals>
@@ -66,17 +66,17 @@
                         </configuration>
                         <phase>generate-resources</phase>
                     </execution>
-<!--                    <execution>-->
-<!--                        <id>local</id>-->
-<!--                        <goals>-->
-<!--                            <goal>npm</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <skip>${maven.local.skip}</skip>-->
-<!--                            <arguments>run-script build-local</arguments>-->
-<!--                        </configuration>-->
-<!--                        <phase>generate-resources</phase>-->
-<!--                    </execution>-->
+                    <!--                    <execution>-->
+                    <!--                        <id>local</id>-->
+                    <!--                        <goals>-->
+                    <!--                            <goal>npm</goal>-->
+                    <!--                        </goals>-->
+                    <!--                        <configuration>-->
+                    <!--                            <skip>${maven.local.skip}</skip>-->
+                    <!--                            <arguments>run-script build-local</arguments>-->
+                    <!--                        </configuration>-->
+                    <!--                        <phase>generate-resources</phase>-->
+                    <!--                    </execution>-->
                 </executions>
             </plugin>
         </plugins>
