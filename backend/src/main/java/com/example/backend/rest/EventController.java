@@ -1,16 +1,17 @@
 package com.example.backend.rest;
 
 import com.example.backend.dtos.EventDto;
+import com.example.backend.dtos.UserDto;
 import com.example.backend.mappers.EventMapper;
 import com.example.backend.models.Event;
 import com.example.backend.models.User;
+import com.example.backend.repositories.UserRepository;
 import com.example.backend.services.EventService;
 import com.example.backend.shared.Constant;
 import com.example.backend.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,14 +33,15 @@ import java.util.stream.Collectors;
 public class EventController {
     @Operation(summary = "Add new event")
     @PostMapping("/new")
-    public ResponseEntity<?> addEvent(@RequestBody Event event) {
-        return ResponseEntity.ok(eventService.addEvent(event));
+    public ResponseEntity<?> addEvent(@RequestBody Event event) throws Exception {
+        UserDto currentUser = SecurityUtils.getCurrentUser();
+        return ResponseEntity.ok(eventService.addEvent(event, currentUser.getId()));
     }
 
     @Operation(summary = "Find all events")
     @GetMapping("")
     public List<EventDto> findAll() {
-        User currentUser = SecurityUtils.getCurrentUser();
+        UserDto currentUser = SecurityUtils.getCurrentUser();
         return eventService.findAllByUser(currentUser.getId())
                 .stream()
                 .map(EventMapper::toDto)
@@ -48,7 +50,8 @@ public class EventController {
     }
 
     @GetMapping("/firebase")
-    public Flux<EventDto> getFirebaseData() {
+    public Flux<EventDto> getFirebaseData() throws Exception {
+        User admin = userRepository.findById(Constant.ADMIN_ID).orElseThrow(Exception::new);
         WebClient client = WebClient.builder().baseUrl(Constant.Firebase.EVENTS_API).build();
         Flux<Map> rawResponse = client.get().retrieve().bodyToFlux(Map.class);
         Flux<EventDto> response = rawResponse.flatMap(map -> {
@@ -67,7 +70,11 @@ public class EventController {
         });
         eventService.deleteAll();
         response.flatMap((each) -> {
-            eventService.addEvent(EventMapper.toModel(each));
+            try {
+                eventService.addEvent(EventMapper.toModel(each), each.getUserId());
+            } catch (Exception e) {
+                return Flux.error(new RuntimeException(e));
+            }
             return Mono.just(each);
         }).subscribe();
         return response;
@@ -77,6 +84,9 @@ public class EventController {
     public ResponseEntity<?> syncCalender() {
         return ResponseEntity.ok(null);
     }
+
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private EventService eventService;
 }

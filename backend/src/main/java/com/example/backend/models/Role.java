@@ -1,5 +1,7 @@
 package com.example.backend.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,19 +16,19 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
+@Builder
 @Table(name = "ROLES")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Role implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private RoleEnum name;
-
     public Role(RoleEnum name) {
         this.name = name;
     }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private RoleEnum name;
 }

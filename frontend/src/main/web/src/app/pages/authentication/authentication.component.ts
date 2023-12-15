@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthResponseData, AuthService } from '../../auth/auth.service';
+import { AuthResponse, AuthService } from '../../auth/auth.service';
 import { FormControl, Validators } from '@angular/forms';
 import { CachesService } from '../../services/caches.service';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
-import { NgxSpinner, NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-authentication',
@@ -38,8 +38,7 @@ export class AuthenticationComponent implements OnInit {
 
   authenticate = (email: string, password?: string) => {
     this.isLoading = true;
-    let authObs: Observable<AuthResponseData> =
-      new Observable<AuthResponseData>();
+    let authObs: Observable<AuthResponse> = new Observable<AuthResponse>();
     if (password) {
       if (this.isLogin) {
         authObs = this.authService.login(email, password);

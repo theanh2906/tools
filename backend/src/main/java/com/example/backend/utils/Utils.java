@@ -67,6 +67,11 @@ public class Utils {
         return null;
     }
 
+    public static <T> T map(Class<T> clazz, Object object) {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.convertValue(object, clazz);
+    }
+
     public static String buildUriWithParams(String uri, Map<String, Object> params) {
         StringBuilder builder = new StringBuilder(uri);
         if (params != null && !params.isEmpty()) {

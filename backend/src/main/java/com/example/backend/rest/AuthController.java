@@ -11,8 +11,8 @@ import com.example.backend.models.User;
 import com.example.backend.repositories.RoleRepository;
 import com.example.backend.repositories.UserRepository;
 import com.example.backend.services.UserDetailsImpl;
-import com.example.backend.utils.Utils;
 import com.example.backend.utils.JwtUtils;
+import com.example.backend.utils.Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,25 +42,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private PasswordEncoder encoder;
-
-    @Autowired
-    private JwtUtils jwtUtils;
-
-    @Value("${app.jwtExpiration}")
-    private Long tokenExpiration;
-
     /**
      * Method to authenticate login request
      *
@@ -79,7 +60,7 @@ public class AuthController {
                     .getAuthorities()
                     .stream().map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
-            return ResponseEntity.ok().body(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getEmail(), roles, tokenExpiration));
+            return ResponseEntity.ok().body(new JwtResponse(jwt));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseDto<>(false, "Invalid encoded string"));
         } catch (Exception e) {
@@ -103,7 +84,7 @@ public class AuthController {
                 return ResponseEntity.badRequest().body(new ResponseDto<>(false, "Email already exist!"));
             }
 
-            User user = UserMapper.toModel(signupRequest);
+            User user = UserMapper.toDto(signupRequest);
             user.setPassword(encoder.encode(signupRequest.getPassword()));
             Set<Role> roles = new HashSet<>();
             roles.add(roleRepository.findByName(RoleEnum.ROLE_USER).orElse(null));
@@ -114,4 +95,17 @@ public class AuthController {
             return ResponseEntity.badRequest().body(new ResponseDto<>(false, e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.toList())));
         }
     }
+    private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder encoder;
+    @Autowired
+    private JwtUtils jwtUtils;
+    @Value("${app.jwtExpiration}")
+    private Long tokenExpiration;
 }

@@ -7,9 +7,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface NoteRepository extends JpaRepository<Note, String> {
     @Modifying
-    @Query("delete from Note n where n.id = :id")
+    @Query("DELETE FROM Note n WHERE n.id = :id")
     Integer deleteNotes(@Param("id") String id);
+
+    @Query("SELECT n FROM Note n WHERE n.user.id = :userId")
+    List<Note> findAllByUser(String userId);
+
+    @Query("SELECT n FROM Note n WHERE n.id = :id")
+    Note findNote(String id);
 }

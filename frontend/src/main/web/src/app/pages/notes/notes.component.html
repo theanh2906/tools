@@ -1,12 +1,12 @@
 <app-editor (createNoteEvent)="onCreateNote($event)"></app-editor>
 <div *ngIf="notesList" class="notes-display">
-  <div *ngFor="let note of notesList">
+  <div *ngFor="let note of notesList | async">
     <div *ngIf="!note.isEdit" class="notes-display__wrapper">
       <div class="delete__area">
-        <div (click)="onSwitchMode(note)" class="edit" role="button" matTooltip="Edit note">
+        <div (click)="onSwitchMode(note)" class="edit" matTooltip="Edit note" role="button">
           <mat-icon *ngIf="!note.isEdit">edit</mat-icon>
         </div>
-        <div (click)="deleteNote(note.id)" class="delete" role="button" matTooltip="Delete note">
+        <div (click)="deleteNote(note.id)" class="delete" matTooltip="Delete note" role="button">
           <mat-icon>delete</mat-icon>
         </div>
       </div>

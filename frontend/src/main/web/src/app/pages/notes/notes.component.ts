@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Note, NotesService } from '../../services/notes.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-notes',
@@ -9,7 +10,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./notes.component.scss'],
 })
 export class NotesComponent implements OnInit {
-  notesList: Note[] = [];
+  notesList = new Observable<Note[]>();
   editedNote!: Note;
 
   constructor(
@@ -18,21 +19,16 @@ export class NotesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.notesService
-      .getAllNotes()
-      .pipe(
-        map((notes) => {
-          notes.map((note) => {
-            note.content = this.sanitizer.bypassSecurityTrustHtml(
-              note.content
-            ) as string;
-          });
-          return notes;
-        })
-      )
-      .subscribe((res) => {
-        this.notesList = res;
-      });
+    this.notesList = this.notesService.getAllNotes().pipe(
+      map((notes) => {
+        notes.map((note) => {
+          note.content = this.sanitizer.bypassSecurityTrustHtml(
+            note.content
+          ) as string;
+        });
+        return notes;
+      })
+    );
   }
 
   deleteNote(id: string) {

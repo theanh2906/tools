@@ -1,5 +1,4 @@
 import { FileFolder } from '../services/storage.service';
-
 export interface TreeNode<T = any> {
   label?: string;
   data?: T;

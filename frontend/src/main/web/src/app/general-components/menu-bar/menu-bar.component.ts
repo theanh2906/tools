@@ -20,6 +20,7 @@ type SideBarItem = {
 export class MenuBarComponent implements OnInit {
   @ViewChild('sideNav') sideNav!: MatSidenav;
   isAuthenticated = false;
+  remainingTime = 0;
   mobileQuery: MediaQueryList;
   routeData: any;
   title = '';
@@ -82,7 +83,7 @@ export class MenuBarComponent implements OnInit {
     changeDetectorRef: ChangeDetectorRef,
     private media: MediaMatcher,
     private cachesService: CachesService,
-    private authService: AuthService,
+    public authService: AuthService,
     private snackBar: MatSnackBar,
     private router: Router
   ) {
@@ -92,9 +93,14 @@ export class MenuBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.isAuthenticated.subscribe((isAuthenticated) => {
-      this.isAuthenticated = isAuthenticated;
-    });
+    setInterval(() => {
+      if (this.authService.isTokenValid) {
+        this.remainingTime = Math.round(
+          this.authService.authData.exp - new Date().getTime() / 1000
+        );
+      } else return;
+    }, 1000);
+    this.isAuthenticated = this.authService.isTokenValid;
     this.router.events.subscribe((events) => {
       if (events instanceof NavigationEnd) {
         switch (events.url) {
@@ -127,10 +133,9 @@ export class MenuBarComponent implements OnInit {
   onAuthenticate = () => {
     if (this.isAuthenticated) {
       this.authService.logout();
-    }
-    this.router.navigateByUrl('/auth');
-    this.snackBar.open('You have successfully signed out!', '', {
-      duration: 2000,
-    });
+      this.snackBar.open('You have successfully signed out!', '', {
+        duration: 2000,
+      });
+    } else this.router.navigateByUrl('/auth');
   };
 }

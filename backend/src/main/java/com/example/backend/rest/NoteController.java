@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,13 +54,14 @@ public class NoteController {
                 .sorted(Comparator.comparing(NoteDto::getCreatedDate))
                 .collect(Collectors.toList());
     }
+
+    @PutMapping("")
+    @Operation(summary = "Update note by id")
+    public ResponseEntity<?> updateNote(@RequestBody final NoteDto note) {
+        return ResponseEntity.ok(noteService.updateNote(note));
+    }
+
     private final Logger LOG = LoggerFactory.getLogger(getClass());
     @Autowired
     private NoteService noteService;
-
-//    @PutMapping("")
-//    @Operation(summary = "Update note by id")
-//    public ResponseEntity<?> updateNote(@RequestBody final NoteDto note) {
-//
-//    }
 }

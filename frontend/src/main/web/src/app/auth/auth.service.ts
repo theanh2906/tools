@@ -1,21 +1,27 @@
 import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from './user.model';
 import { map, tap } from 'rxjs/operators';
 import { StringUtils } from '../helpers/string-utils';
 import { APP_CONFIG, IAppConfig } from '../config/app.config';
-import StatusResponse = facebook.StatusResponse;
 import { Utils } from '../shared/utils';
 import { CONSTANTS } from '../shared/constants';
+import { Router } from '@angular/router';
+import StatusResponse = facebook.StatusResponse;
 
 export interface AuthResponseData {
   id: string;
-  token: string;
   username: string;
   email: string;
-  expiresIn: string;
+  exp: number;
+  iat: number;
   roles: string[];
+}
+
+export interface AuthResponse {
+  token: string;
 }
 
 export interface FacebookLoginResponse {
@@ -36,12 +42,22 @@ export interface FacebookLoginResponse {
   providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
+  defaultRes: AuthResponseData = {
+    email: '',
+    id: '',
+    iat: 0,
+    exp: 0,
+    username: '',
+    roles: [],
+  };
   // @ts-ignore
   private _user = new BehaviorSubject<User>(null);
   private activeLogoutTimer: any;
+  private helper = new JwtHelperService();
 
   constructor(
     private http: HttpClient,
+    private router: Router,
     @Inject(APP_CONFIG) private appConfig: IAppConfig
   ) {
     FB.init({
@@ -66,25 +82,11 @@ export class AuthService implements OnDestroy {
   }
 
   get isAuthenticated() {
-    return this._user.asObservable().pipe(
-      map((user) => {
-        if (user) {
-          return !!user.token;
-        }
-        return false;
-      })
-    );
+    return of(this.isTokenValid);
   }
 
   get token() {
-    return this._user.asObservable().pipe(
-      map((user) => {
-        if (user) {
-          return user.token;
-        }
-        return null;
-      })
-    );
+    return window.localStorage.getItem('token');
   }
 
   get isFacebookLogged() {
@@ -97,15 +99,30 @@ export class AuthService implements OnDestroy {
     ) as FacebookLoginResponse;
   }
 
+  get authData() {
+    if (this.token) {
+      return this.parseToken(this.token);
+    } else return this.defaultRes;
+  }
+
+  get tokenExpiringTime() {
+    return this.authData.exp;
+  }
+
+  get isTokenValid() {
+    return !!this.token && !this.helper.isTokenExpired(this.token);
+  }
+
   ngOnDestroy(): void {}
 
   login = (email: string, password?: string) => {
     return this.http
-      .post<AuthResponseData>(
+      .post<{ token: string }>(
         `${this.appConfig.endpoints.auth.login}`,
         StringUtils.encode({ email, password })
       )
       .pipe(
+        tap(this.storeToken),
         tap(this.setUserData),
         tap(() => {
           this.autoLogin().subscribe();
@@ -114,32 +131,29 @@ export class AuthService implements OnDestroy {
   };
 
   autoLogin = () => {
-    return of(window.localStorage.getItem('authData')).pipe(
+    return of(window.localStorage.getItem('token')).pipe(
       map((storedData) => {
         if (!storedData) {
           return;
         }
-        const parsedData = JSON.parse(storedData) as {
-          token: string;
-          tokenExpirationDate: string;
-          userId: string;
-          email: string;
-        };
-        const expirationTime = new Date(parsedData.tokenExpirationDate);
-        if (expirationTime <= new Date()) {
+        const parsedData = this.parseToken(storedData);
+        if (parsedData.exp <= new Date().getTime()) {
           return;
         }
         return new User(
-          parsedData.userId,
+          parsedData.id,
           parsedData.email,
-          parsedData.token,
-          expirationTime
+          parsedData.roles,
+          parsedData.username
         );
       }),
       tap((user) => {
         if (user) {
           this._user.next(user);
-          this.autoLogout(user.tokenDuration);
+          this.autoLogout(
+            new Date(this.authData.exp).getTime() -
+              new Date(this.authData.iat).getTime()
+          );
         }
       }),
       map((user) => {
@@ -148,7 +162,7 @@ export class AuthService implements OnDestroy {
     );
   };
 
-  signup = (email: string, password: string): Observable<AuthResponseData> => {
+  signup = (email: string, password: string): Observable<AuthResponse> => {
     // return this.http
     //   .post<AuthResponseData>(
     //     `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.webApiKey}`,
@@ -159,10 +173,8 @@ export class AuthService implements OnDestroy {
   };
 
   logout = () => {
-    of(window.localStorage.removeItem('authData')).subscribe(() => {
-      // @ts-ignore
-      this._user.next(null);
-    });
+    window.localStorage.removeItem('token');
+    this.router.navigateByUrl('/auth');
   };
 
   facebookLogin() {
@@ -198,40 +210,60 @@ export class AuthService implements OnDestroy {
       .subscribe(console.log);
   }
 
+  validateToken() {
+    if (this.token) {
+      if (!this.isTokenValid) {
+        window.localStorage.removeItem('token');
+        // @ts-ignore
+        this._user.next(null);
+      } else {
+        this.autoLogout(
+          Math.round(this.authData.exp - new Date().getTime() / 1000)
+        );
+        this._user.next(
+          new User(
+            this.authData.id,
+            this.authData.email,
+            this.authData.roles,
+            this.authData.username
+          )
+        );
+      }
+    }
+  }
+
   private autoLogout = (duration: number) => {
     if (this.activeLogoutTimer) {
       clearTimeout(this.activeLogoutTimer);
     }
-    this.activeLogoutTimer = setTimeout(this.logout, duration);
+    this.activeLogoutTimer = setTimeout(this.logout, duration * 1000);
   };
 
-  private setUserData = (userData: AuthResponseData) => {
-    const expirationTime = new Date(
-      new Date().getTime() + +userData.expiresIn * 1000
-    );
-    const user = new User(
-      userData.id,
-      userData.email,
-      userData.token,
-      expirationTime
-    );
+  private setUserData = (userData: AuthResponse) => {
+    let claim = this.parseToken(userData.token);
+    const user = new User(claim.id, claim.email, claim.roles, claim.username);
     this._user.next(user);
-    this.autoLogout(user.tokenDuration);
-    this.storeAuthData(
-      userData.id,
-      userData.token,
-      expirationTime.toISOString(),
-      userData.email
-    );
+    this.autoLogout(claim.exp - claim.iat);
+    // this.storeAuthData(claim);
   };
 
-  private storeAuthData = (
-    userId: string,
-    token: string,
-    tokenExpirationDate: string,
-    email: string
-  ) => {
-    const data = JSON.stringify({ userId, token, tokenExpirationDate, email });
+  private storeToken = (data: AuthResponse) => {
+    if (data && data.token) {
+      window.localStorage.setItem('token', data.token);
+    }
+  };
+
+  private storeAuthData = (claim: AuthResponseData) => {
+    const tokenExpirationDate = new Date(claim.exp).toISOString();
+    const data = JSON.stringify({
+      userId: claim.id,
+      tokenExpirationDate,
+      email: claim.email,
+    });
     window.localStorage.setItem('authData', data);
   };
+
+  private parseToken(token: string) {
+    return this.helper.decodeToken(token) as AuthResponseData;
+  }
 }

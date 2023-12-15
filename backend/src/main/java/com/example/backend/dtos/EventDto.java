@@ -13,4 +13,5 @@ public class EventDto {
     private String start;
     private String end;
     private String title;
+    private String userId;
 }

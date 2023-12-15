@@ -1,5 +1,7 @@
 package com.example.backend.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +20,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,8 +31,11 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "email")
         })
 @Data
+@Builder
 @NoArgsConstructor
-public class User {
+@AllArgsConstructor
+public class User implements Serializable {
+    private static final long serialVersionUID = -7673348361769604572L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;

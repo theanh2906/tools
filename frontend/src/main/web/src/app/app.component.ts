@@ -1,11 +1,10 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from './auth/auth.service';
 import { Router } from '@angular/router';
 import SockJS from 'sockjs-client';
 import { environment } from '../environments/environment';
-import { FrameImpl, Stomp } from '@stomp/stompjs';
-import * as uuid from 'uuid';
+import { Stomp } from '@stomp/stompjs';
 import { MessageType } from './shared/models';
 import { SocketService } from './services/socket.service';
 
@@ -36,14 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.connect();
-    this.authSub = this.authService.isAuthenticated.subscribe(
-      (isAuthenticated) => {
-        if (!isAuthenticated && this.previousAuthState !== isAuthenticated) {
-          this.router.navigateByUrl('/auth');
-        }
-        this.previousAuthState = isAuthenticated;
-      }
-    );
+    this.authService.validateToken();
   }
 
   connect() {

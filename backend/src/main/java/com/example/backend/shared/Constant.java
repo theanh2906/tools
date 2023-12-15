@@ -4,6 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.example.backend.dtos.fshare.FshareLoginRequest;
 
 public class Constant {
+    public static final String ADMIN_ID = "629ce7bb-2713-43be-a9bf-1538ff77218a";
     public static final String[] CROSS_ORIGIN_ALLOW_LIST = new String[]{"http://localhost:8080", "http://localhost:4200"};
 
     public static class Firebase {
@@ -42,8 +43,6 @@ public class Constant {
             FOLDER("0"),
             FILE("1");
 
-            private final String value;
-
             FolderType(String value) {
                 this.value = value;
             }
@@ -51,6 +50,7 @@ public class Constant {
             public String getValue() {
                 return value;
             }
+            private final String value;
         }
     }
 

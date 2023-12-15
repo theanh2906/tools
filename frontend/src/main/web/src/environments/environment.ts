@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://127.0.0.1:8081/api',
+  apiUrl: 'http://45.32.60.127/websocket/api',
   wsEndpoint: 'ws://127.0.0.1:8081/socket',
   RTCPeerConfiguration: {
     iceServers: [

@@ -4,6 +4,7 @@
       <mat-icon>menu</mat-icon>
     </button>
     <h1 class="title">{{ title ? title : 'Useful Tools' }}</h1>
+    <!--    <span *ngIf="authService.isTokenValid" style="margin-left: 1rem">Session will expire in {{ remainingTime }}s</span>-->
     <span class="spacer"></span>
     <button
       (click)="onAuthenticate()"

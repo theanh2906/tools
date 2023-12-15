@@ -3,6 +3,7 @@ package com.example.backend.services;
 import com.example.backend.models.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Data
+@NoArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
     private static final long serialVersionUID = 1L;
@@ -23,7 +25,6 @@ public class UserDetailsImpl implements UserDetails {
 
     private String email;
 
-    @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
