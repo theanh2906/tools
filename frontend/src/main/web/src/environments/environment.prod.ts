@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://127.0.0.1:8000/tools/api',
-  wsEndpoint: 'ws://127.0.0.1:8000/tools/socket',
+  apiUrl: 'http://localhost:8000/tools/api',
+  wsEndpoint: 'ws://localhost:8000/tools/socket',
   RTCPeerConfiguration: {
     iceServers: [
       {
