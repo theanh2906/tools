@@ -16,12 +16,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableJpaRepositories(basePackages = "com.example.backend.repositories")
 @EnableCaching
 public class BackendApplication extends SpringBootServletInitializer implements CommandLineRunner {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BackendApplication.class);
-
-    public static void main(String[] args) {
-        SpringApplication.run(BackendApplication.class, args);
-    }
-
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -29,7 +23,7 @@ public class BackendApplication extends SpringBootServletInitializer implements 
             public void addCorsMappings(CorsRegistry registry) {
                 registry
                         .addMapping("/api/**")
-                        .allowedOrigins("http://localhost:8081", "http://localhost:4200", "https://tools.devontop.com")
+                        .allowedOrigins("http://localhost:8081", "http://localhost:4200", "https://tools.devontop.com", "http://theanh2906.ddns.net")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
         };
@@ -37,5 +31,11 @@ public class BackendApplication extends SpringBootServletInitializer implements 
 
     @Override
     public void run(String... args) throws Exception {
+    }
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BackendApplication.class);
+
+    public static void main(String[] args) {
+        SpringApplication.run(BackendApplication.class, args);
     }
 }
