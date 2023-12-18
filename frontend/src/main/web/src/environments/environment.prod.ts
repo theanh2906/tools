@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://theanh2906.ddns.net:8000/tools/api',
-  wsEndpoint: 'ws://theanh2906.ddns.net/tools/socket',
+  apiUrl: 'http://127.0.0.1/tools/api',
+  wsEndpoint: 'ws://127.0.0.1/tools/socket',
   RTCPeerConfiguration: {
     iceServers: [
       {
