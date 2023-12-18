@@ -90,11 +90,12 @@ public class AuthController {
             roles.add(roleRepository.findByName(RoleEnum.ROLE_USER).orElse(null));
             user.setRoles(roles);
             userRepository.save(user);
-            return ResponseEntity.ok(new ResponseDto<>(true, "Successfully signup user"));
+            return ResponseEntity.ok(new ResponseDto<>(true, "Successfully signup user!"));
         } catch (ConstraintViolationException e) {
             return ResponseEntity.badRequest().body(new ResponseDto<>(false, e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.toList())));
         }
     }
+
     private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
     @Autowired
     private AuthenticationManager authenticationManager;
