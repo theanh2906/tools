@@ -29,6 +29,6 @@ public class Images {
     private Long size;
     @Column
     private String imageType;
-    @Column
+    @Column(columnDefinition = "BYTEA")
     private byte[] data;
 }

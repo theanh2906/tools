@@ -4,7 +4,6 @@ import com.example.backend.dtos.EventDto;
 import com.example.backend.dtos.UserDto;
 import com.example.backend.mappers.EventMapper;
 import com.example.backend.models.Event;
-import com.example.backend.models.User;
 import com.example.backend.repositories.UserRepository;
 import com.example.backend.services.EventService;
 import com.example.backend.shared.Constant;
@@ -51,7 +50,7 @@ public class EventController {
 
     @GetMapping("/firebase")
     public Flux<EventDto> getFirebaseData() throws Exception {
-        User admin = userRepository.findById(Constant.ADMIN_ID).orElseThrow(Exception::new);
+        UserDto currentUser = SecurityUtils.getCurrentUser();
         WebClient client = WebClient.builder().baseUrl(Constant.Firebase.EVENTS_API).build();
         Flux<Map> rawResponse = client.get().retrieve().bodyToFlux(Map.class);
         Flux<EventDto> response = rawResponse.flatMap(map -> {
@@ -71,7 +70,7 @@ public class EventController {
         eventService.deleteAll();
         response.flatMap((each) -> {
             try {
-                eventService.addEvent(EventMapper.toModel(each), each.getUserId());
+                eventService.addEvent(EventMapper.toModel(each), Constant.ADMIN_ID);
             } catch (Exception e) {
                 return Flux.error(new RuntimeException(e));
             }

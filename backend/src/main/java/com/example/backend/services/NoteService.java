@@ -4,6 +4,8 @@ import com.example.backend.dtos.NoteDto;
 import com.example.backend.models.Note;
 import com.example.backend.models.User;
 import com.example.backend.repositories.NoteRepository;
+import com.example.backend.repositories.UserRepository;
+import com.example.backend.shared.Constant;
 import com.example.backend.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class NoteService {
     }
 
     public List<Note> findAll() {
-        return noteRepository.findAllByUser(SecurityUtils.getCurrentUser().getId());
+        return noteRepository.findAllByUser(Constant.ADMIN_ID);
     }
 
     @Transactional
@@ -39,7 +41,8 @@ public class NoteService {
         savedNote.setContent(note.getContent());
         return noteRepository.save(savedNote);
     }
-
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private NoteRepository noteRepository;
 }

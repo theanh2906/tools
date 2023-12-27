@@ -11,7 +11,6 @@ import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
 import com.example.backend.shared.Constant;
 import io.awspring.cloud.messaging.config.SimpleMessageListenerContainerFactory;
-import io.awspring.cloud.messaging.config.annotation.EnableSqs;
 import io.awspring.cloud.messaging.core.QueueMessagingTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +18,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-@EnableSqs
+//@EnableSqs
 public class AmazonConfiguration {
     @Bean
     @Primary
@@ -46,16 +45,16 @@ public class AmazonConfiguration {
     }
 
     @Bean
+    public QueueMessagingTemplate queueMessagingTemplate(AmazonSQSAsync amazonSQSAsync) {
+        return new QueueMessagingTemplate(amazonSQSAsync);
+    }
+
+    @Bean
     public AmazonS3 s3Client() {
         return AmazonS3ClientBuilder
                 .standard()
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials()))
                 .withRegion(Constant.AWSConfig.AWS_S3_REGION).build();
-    }
-
-    @Bean
-    public QueueMessagingTemplate queueMessagingTemplate(AmazonSQSAsync amazonSQSAsync) {
-        return new QueueMessagingTemplate(amazonSQSAsync);
     }
 
     @Bean
