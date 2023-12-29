@@ -1,5 +1,6 @@
 package com.example.backend;
 
+import com.example.backend.shared.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -9,14 +10,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.example.backend.repositories")
 @EnableCaching
-@CrossOrigin(origins = "*")
 public class BackendApplication extends SpringBootServletInitializer implements CommandLineRunner {
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -25,9 +24,8 @@ public class BackendApplication extends SpringBootServletInitializer implements 
             public void addCorsMappings(CorsRegistry registry) {
                 registry
                         .addMapping("/api/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("*")
-                        .allowCredentials(true);
+                        .allowedOrigins(Constant.CROSS_ORIGIN_ALLOW_LIST)
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
         };
     }
