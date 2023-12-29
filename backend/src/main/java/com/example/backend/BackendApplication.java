@@ -23,8 +23,9 @@ public class BackendApplication extends SpringBootServletInitializer implements 
             public void addCorsMappings(CorsRegistry registry) {
                 registry
                         .addMapping("/api/**")
-                        .allowedOrigins("http://localhost:8081", "http://localhost:4200", "http://theanh2906.ddns.net:8000")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+                        .allowedOrigins("*")
+                        .allowedMethods("*")
+                        .allowCredentials(true);
             }
         };
     }
